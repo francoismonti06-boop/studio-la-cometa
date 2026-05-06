@@ -353,6 +353,71 @@ export default defineType({
             },
           },
         }),
+
+        defineArrayMember({
+          type: 'object',
+          name: 'sidebarRelatedPropertyBlock',
+          title: 'Situation associée',
+          fields: [
+            defineField({
+              name: 'eyebrow',
+              title: 'Surtitre',
+              type: 'string',
+              initialValue: 'Situation associée',
+              validation: (Rule) => Rule.max(80),
+            }),
+            defineField({
+              name: 'title',
+              title: 'Titre',
+              type: 'string',
+              validation: (Rule) => Rule.required().max(120),
+            }),
+            defineField({
+              name: 'text',
+              title: 'Texte',
+              type: 'text',
+              rows: 3,
+              validation: (Rule) => Rule.max(260),
+            }),
+            defineField({
+              name: 'ctaLabel',
+              title: 'Libellé du lien',
+              type: 'string',
+              initialValue: 'Découvrir cette situation',
+              validation: (Rule) => Rule.max(50),
+            }),
+            defineField({
+              name: 'href',
+              title: 'Lien',
+              type: 'string',
+              description:
+                'Exemple : /property/domaine-confidentiel-saint-tropez',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'eyebrow',
+              media: 'image',
+            },
+            prepare(selection) {
+              return {
+                title: selection.title || 'Situation associée',
+                subtitle: selection.subtitle || 'Sidebar',
+                media: selection.media,
+              }
+            },
+          },
+        }),
       ],
     }),
 
