@@ -395,13 +395,22 @@ export default defineType({
               validation: (Rule) => Rule.required(),
             }),
             defineField({
-              name: 'image',
-              title: 'Image',
-              type: 'image',
-              options: {
-                hotspot: true,
-              },
-            }),
+  name: 'image',
+  title: 'Image',
+  type: 'image',
+  options: {
+    hotspot: true,
+  },
+  fields: [
+    defineField({
+      name: 'alt',
+      title: 'Texte alternatif',
+      type: 'string',
+      description: 'Description courte de l’image pour l’accessibilité.',
+      validation: (Rule) => Rule.max(140),
+    }),
+  ],
+}),
           ],
           preview: {
             select: {

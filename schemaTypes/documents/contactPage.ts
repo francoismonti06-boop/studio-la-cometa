@@ -85,6 +85,71 @@ export default defineType({
         },
       ],
     }),
+
+    defineField({
+      name: 'sidebarIntroTitle',
+      title: 'Sidebar — titre du premier bloc',
+      type: 'string',
+      initialValue: 'Premier échange',
+      validation: (Rule) => Rule.max(80),
+    }),
+    defineField({
+      name: 'sidebarIntroItems',
+      title: 'Sidebar — textes du premier bloc',
+      type: 'array',
+      of: [
+        defineField({
+          name: 'sidebarIntroItem',
+          title: 'Texte',
+          type: 'text',
+          rows: 3,
+          validation: (Rule) => Rule.max(260),
+        }),
+      ],
+      validation: (Rule) => Rule.max(5),
+    }),
+    defineField({
+      name: 'sidebarBenefitsTitle',
+      title: 'Sidebar — titre du second bloc',
+      type: 'string',
+      initialValue: 'Ce que permet cet échange',
+      validation: (Rule) => Rule.max(80),
+    }),
+    defineField({
+      name: 'sidebarBenefits',
+      title: 'Sidebar — bénéfices',
+      type: 'array',
+      of: [
+        defineField({
+          name: 'sidebarBenefit',
+          title: 'Bénéfice',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Titre',
+              type: 'string',
+              validation: (Rule) => Rule.required().max(40),
+            }),
+            defineField({
+              name: 'text',
+              title: 'Texte',
+              type: 'text',
+              rows: 3,
+              validation: (Rule) => Rule.required().max(220),
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'text',
+            },
+          },
+        }),
+      ],
+      validation: (Rule) => Rule.max(4),
+    }),
+
     defineField({
       name: 'seoTitle',
       title: 'SEO title',
