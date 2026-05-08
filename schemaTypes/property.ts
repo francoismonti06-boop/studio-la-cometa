@@ -17,9 +17,6 @@ export default defineType({
     {name: 'internal', title: 'Interne'},
   ],
   fields: [
-    // =========================
-    // INTERNE / STRUCTURE
-    // =========================
     defineField({
       name: 'title',
       title: 'Titre interne',
@@ -47,9 +44,6 @@ export default defineType({
       initialValue: false,
     }),
 
-    // =========================
-    // ÉDITORIAL / MARKETING
-    // =========================
     defineField({
       name: 'marketingTitle',
       title: 'Titre marketing affiché',
@@ -230,9 +224,6 @@ export default defineType({
       ],
     }),
 
-    // =========================
-    // SIDEBAR FICHE
-    // =========================
     defineField({
       name: 'sidebarBlocks',
       title: 'Blocs de sidebar',
@@ -390,27 +381,26 @@ export default defineType({
               name: 'href',
               title: 'Lien',
               type: 'string',
-              description:
-                'Exemple : /property/domaine-confidentiel-saint-tropez',
+              description: 'Exemple : /property/domaine-confidentiel-saint-tropez',
               validation: (Rule) => Rule.required(),
             }),
             defineField({
-  name: 'image',
-  title: 'Image',
-  type: 'image',
-  options: {
-    hotspot: true,
-  },
-  fields: [
-    defineField({
-      name: 'alt',
-      title: 'Texte alternatif',
-      type: 'string',
-      description: 'Description courte de l’image pour l’accessibilité.',
-      validation: (Rule) => Rule.max(140),
-    }),
-  ],
-}),
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                defineField({
+                  name: 'alt',
+                  title: 'Texte alternatif',
+                  type: 'string',
+                  description: 'Description courte de l’image pour l’accessibilité.',
+                  validation: (Rule) => Rule.max(140),
+                }),
+              ],
+            }),
           ],
           preview: {
             select: {
@@ -458,9 +448,6 @@ export default defineType({
       ],
     }),
 
-    // =========================
-    // MÉDIAS
-    // =========================
     defineField({
       name: 'mainImage',
       title: 'Image principale (hero)',
@@ -577,9 +564,6 @@ export default defineType({
       ],
     }),
 
-    // =========================
-    // INFORMATIONS BIEN
-    // =========================
     defineField({
       name: 'propertyType',
       title: 'Type de bien',
@@ -676,7 +660,9 @@ export default defineType({
         list: [
           {title: 'Disponible', value: 'available'},
           {title: 'Sous offre', value: 'underOffer'},
+          {title: 'Sous compromis', value: 'underCompromise'},
           {title: 'Vendu', value: 'sold'},
+          {title: 'Vendue', value: 'soldFemale'},
         ],
         layout: 'dropdown',
       },
@@ -856,9 +842,6 @@ export default defineType({
       ],
     }),
 
-    // =========================
-    // TECHNIQUE / ÉNERGIE
-    // =========================
     defineField({
       name: 'dpeRating',
       title: 'DPE',
@@ -953,9 +936,6 @@ export default defineType({
         'Texte réglementaire affiché sous l’estimation annuelle. Modifiable si besoin.',
     }),
 
-    // =========================
-    // CARACTÉRISTIQUES
-    // =========================
     defineField({
       name: 'features',
       title: 'Caractéristiques',
@@ -1032,7 +1012,9 @@ export default defineType({
       const statusMap: Record<string, string> = {
         available: 'Disponible',
         underOffer: 'Sous offre',
+        underCompromise: 'Sous compromis',
         sold: 'Vendu',
+        soldFemale: 'Vendue',
       }
 
       const propertyTypeMap: Record<string, string> = {
