@@ -36,13 +36,23 @@ export default defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'highlightOnHomepage',
-      title: 'Mettre en avant sur la page d’accueil',
-      type: 'boolean',
-      group: 'internal',
-      initialValue: false,
-    }),
+   defineField({
+  name: 'highlightOnHomepage',
+  title: 'Mettre en avant sur la page d’accueil',
+  type: 'boolean',
+  group: 'internal',
+  initialValue: false,
+}),
+
+defineField({
+  name: 'hubSortOrder',
+  title: 'Ordre sur le hub Adresses',
+  type: 'number',
+  group: 'listing',
+  description:
+    'Plus le nombre est petit, plus le bien remonte haut sur la page Adresses. Exemple : 1, 2, 3. Laisser vide pour afficher après les biens ordonnés.',
+  validation: (Rule) => Rule.min(0),
+}),
 
     defineField({
       name: 'marketingTitle',
