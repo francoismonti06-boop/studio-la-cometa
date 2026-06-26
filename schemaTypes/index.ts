@@ -10,6 +10,8 @@ import contactPage from "./documents/contactPage";
 import methodPage from "./documents/methodPage";
 import homePage from "./homePage";
 
+import { localizedTypes } from "./localized";
+
 // 🔹 BLOCS
 import contentInfoBlock from "./contentInfoBlock";
 import editorialQuote from "./editorialQuote";
@@ -17,6 +19,8 @@ import patrimonyFocus from "./patrimonyFocus";
 import cinematicManifestoBlock from "./cinematicManifestoBlock";
 
 export const schemaTypes = [
+  ...localizedTypes,
+
   // 🔹 DOCUMENTS
   property,
   editorial,
