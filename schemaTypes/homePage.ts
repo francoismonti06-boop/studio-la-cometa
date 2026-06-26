@@ -136,18 +136,18 @@ export default {
             {
               name: "eyebrow",
               title: "Sur-titre",
-              type: "string",
+              type: "localeString",
             },
             {
               name: "title",
               title: "Titre",
-              type: "string",
+              type: "localeString",
               validation: (Rule: any) => Rule.required(),
             },
             {
               name: "text",
               title: "Texte",
-              type: "text",
+              type: "localeText",
               rows: 4,
               validation: (Rule: any) => Rule.required(),
             },
@@ -181,13 +181,13 @@ export default {
             {
               name: "title",
               title: "Titre",
-              type: "string",
+              type: "localeString",
               validation: (Rule: any) => Rule.required(),
             },
             {
               name: "text",
               title: "Texte",
-              type: "text",
+              type: "localeText",
               rows: 4,
             },
             {
@@ -199,7 +199,7 @@ export default {
             {
               name: "linkLabel",
               title: "Libellé du lien",
-              type: "string",
+              type: "localeString",
             },
             {
               name: "image",
@@ -210,7 +210,7 @@ export default {
                 {
                   name: "alt",
                   title: "Texte alternatif",
-                  type: "string",
+                  type: "localeString",
                 },
               ],
             },
@@ -232,7 +232,7 @@ export default {
             {
               name: "text",
               title: "Texte",
-              type: "text",
+              type: "localeText",
               rows: 3,
               validation: (Rule: any) => Rule.required(),
             },
@@ -258,13 +258,13 @@ export default {
             {
               name: "title",
               title: "Titre",
-              type: "string",
+              type: "localeString",
               validation: (Rule: any) => Rule.required(),
             },
             {
               name: "text",
               title: "Texte",
-              type: "text",
+              type: "localeText",
               rows: 4,
             },
           ],
