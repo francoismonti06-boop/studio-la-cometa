@@ -42,12 +42,24 @@ For localized code changes:
 - Generate the smallest possible patch.
 - Preserve the existing architecture.
 
+## Context
+
+Prefer explicit context over implicit search.
+
+Use:
+
+- @Current File
+- @Files
+
+Avoid relying on generic workspace searches when specific files are known.
+
 ## Review
 
 Before considering the task complete:
 
 - Review the generated diff.
 - Verify that only the requested code changed.
+- Verify that braces, brackets and object/array closures are still correct around the edited block.
 - Stop if unrelated modifications appear.
 
 ## Build
