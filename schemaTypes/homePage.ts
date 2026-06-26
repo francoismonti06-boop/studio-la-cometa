@@ -286,13 +286,13 @@ export default {
         {
           name: "metaTitle",
           title: "Meta title",
-          type: "string",
+          type: "localeString",
           validation: (Rule: any) => Rule.max(60),
         },
         {
           name: "metaDescription",
           title: "Meta description",
-          type: "text",
+          type: "localeText",
           rows: 3,
           validation: (Rule: any) => Rule.max(160),
         },
@@ -305,7 +305,6 @@ export default {
       ],
     },
   ],
-
   preview: {
     select: {
       title: "title",
