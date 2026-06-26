@@ -20,24 +20,24 @@ export default {
         {
           name: "eyebrow",
           title: "Sur-titre",
-          type: "string",
+          type: "localeString",
         },
         {
           name: "title",
           title: "Titre",
-          type: "string",
+          type: "localeString",
           validation: (Rule: any) => Rule.required(),
         },
         {
           name: "text",
           title: "Texte",
-          type: "text",
+          type: "localeText",
           rows: 4,
         },
         {
           name: "primaryLabel",
           title: "Libellé CTA principal",
-          type: "string",
+          type: "localeString",
         },
         {
           name: "primaryHref",
@@ -47,7 +47,7 @@ export default {
         {
           name: "secondaryLabel",
           title: "Libellé CTA secondaire",
-          type: "string",
+          type: "localeString",
         },
         {
           name: "secondaryHref",
