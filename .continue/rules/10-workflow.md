@@ -61,6 +61,7 @@ Before considering the task complete:
 - Verify that only the requested code changed.
 - Verify that braces, brackets and object/array closures are still correct around the edited block.
 - When migrating Sanity fields to custom localized types, check incompatible native properties such as rows, options, list, or layout before keeping them.
+- Distinguish editorial fields from internal fields. Do not localize identifiers, slugs, or other technical fields unless explicitly required.
 - Stop if unrelated modifications appear.
 
 ## Build
