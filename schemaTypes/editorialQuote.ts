@@ -8,14 +8,13 @@ export default defineType({
     defineField({
       name: "quote",
       title: "Citation",
-      type: "text",
-      rows: 3,
+      type: "localeText",
       validation: (Rule) => Rule.required().max(300),
     }),
     defineField({
       name: "author",
       title: "Auteur (optionnel)",
-      type: "string",
+      type: "localeString",
       validation: (Rule) => Rule.max(80),
     }),
   ],
