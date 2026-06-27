@@ -24,20 +24,18 @@ export default defineType({
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
-      type: "string",
-      initialValue: "La Voix du Viager",
+      type: "localeString",
     }),
     defineField({
       name: "headline",
       title: "Titre principal",
-      type: "string",
+      type: "localeString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "excerpt",
       title: "Chapô",
-      type: "text",
-      rows: 4,
+      type: "localeText",
       validation: (Rule) => Rule.required().max(420),
     }),
     defineField({
@@ -49,7 +47,7 @@ export default defineType({
         defineField({
           name: "alt",
           title: "Texte alternatif",
-          type: "string",
+          type: "localeString",
           validation: (Rule) => Rule.required(),
         }),
       ],
@@ -107,13 +105,13 @@ export default defineType({
             defineField({
               name: "label",
               title: "Libellé",
-              type: "string",
+              type: "localeString",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "value",
               title: "Valeur",
-              type: "string",
+              type: "localeString",
               validation: (Rule) => Rule.required(),
             }),
           ],
@@ -130,29 +128,24 @@ export default defineType({
     defineField({
       name: "methodTitle",
       title: "Titre bloc méthode",
-      type: "string",
-      initialValue: "Sa manière d’accompagner",
+      type: "localeString",
     }),
     defineField({
       name: "methodItems",
       title: "Items méthode",
       type: "array",
-      of: [defineArrayMember({type: "string"})],
+      of: [defineArrayMember({type: "localeString"})],
       validation: (Rule) => Rule.max(4),
     }),
     defineField({
       name: "ctaTitle",
       title: "Titre CTA",
-      type: "string",
-      initialValue: "Présenter une situation patrimoniale",
+      type: "localeString",
     }),
     defineField({
       name: "ctaText",
       title: "Texte CTA",
-      type: "text",
-      rows: 3,
-      initialValue:
-        "Un échange confidentiel pour examiner ce qui peut être ajusté, transmis ou réorganisé — sans précipitation.",
+      type: "localeText",
     }),
     defineField({
       name: "ctaHref",
@@ -164,14 +157,13 @@ export default defineType({
     defineField({
       name: "seoTitle",
       title: "SEO title",
-      type: "string",
+      type: "localeString",
       validation: (Rule) => Rule.max(70),
     }),
     defineField({
       name: "seoDescription",
       title: "SEO description",
-      type: "text",
-      rows: 3,
+      type: "localeText",
       validation: (Rule) => Rule.max(170),
     }),
     defineField({
