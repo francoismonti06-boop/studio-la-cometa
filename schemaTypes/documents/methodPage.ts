@@ -66,32 +66,26 @@ export default defineType({
     defineField({
       name: "eyebrow",
       title: "Sur-titre de marque",
-      type: "string",
-      initialValue: "La Voix du Viager",
+      type: "localeString",
     }),
 
     defineField({
       name: "headline",
       title: "Titre principal",
-      type: "string",
-      initialValue: "Prendre le temps de bien faire",
+      type: "localeString",
       validation: (Rule) => Rule.required(),
     }),
 
     defineField({
       name: "subtitle",
       title: "Surtitre éditorial",
-      type: "string",
-      initialValue: "Rien ne presse. Tout se joue pourtant ici.",
+      type: "localeString",
     }),
 
     defineField({
       name: "excerpt",
       title: "Chapô",
-      type: "text",
-      rows: 4,
-      initialValue:
-        "Chaque situation est différente, mais une chose ne change pas : une décision patrimoniale juste ne se déclenche pas. Elle se construit dans le réel, se vérifie, puis se tient — ou ne tient pas.",
+      type: "localeText",
       validation: (Rule) => Rule.required().max(520),
     }),
 
@@ -104,7 +98,7 @@ export default defineType({
         defineField({
           name: "alt",
           title: "Texte alternatif",
-          type: "string",
+          type: "localeString",
           validation: (Rule) => Rule.required(),
         }),
       ],
@@ -113,8 +107,7 @@ export default defineType({
     defineField({
       name: "readingTime",
       title: "Temps de lecture",
-      type: "string",
-      initialValue: "4 min",
+      type: "localeString",
     }),
 
     defineField({
@@ -186,24 +179,19 @@ export default defineType({
     defineField({
       name: "sidebarTitle",
       title: "Titre CTA sidebar",
-      type: "string",
-      initialValue: "Examiner une situation sans angle mort",
+      type: "localeString",
     }),
 
     defineField({
       name: "sidebarText",
       title: "Texte CTA sidebar",
-      type: "text",
-      rows: 3,
-      initialValue:
-        "Une analyse confidentielle, chiffrée, sans engagement — pour voir ce qui tient encore, et ce que vous ne voyez plus.",
+      type: "localeText",
     }),
 
     defineField({
       name: "sidebarCtaLabel",
       title: "Libellé bouton sidebar",
-      type: "string",
-      initialValue: "Présenter une situation",
+      type: "localeString",
       description:
         "Libellé éditorial conservé. Le CTA de sidebar ouvre désormais la modale de contact côté site.",
     }),
@@ -223,12 +211,12 @@ export default defineType({
             defineField({
               name: "title",
               title: "Titre",
-              type: "string",
+              type: "localeString",
             }),
             defineField({
               name: "subtitle",
               title: "Sous-titre",
-              type: "string",
+              type: "localeString",
             }),
             defineField({
               name: "href",
@@ -260,7 +248,7 @@ export default defineType({
                 defineField({
                   name: "alt",
                   title: "Texte alternatif",
-                  type: "string",
+                  type: "localeString",
                 }),
               ],
             }),
@@ -279,24 +267,19 @@ export default defineType({
     defineField({
       name: "bottomCtaTitle",
       title: "Titre CTA fin de page",
-      type: "string",
-      initialValue: "Clarifier ce que votre situation engage déjà",
+      type: "localeString",
     }),
 
     defineField({
       name: "bottomCtaText",
       title: "Texte CTA fin de page",
-      type: "text",
-      rows: 3,
-      initialValue:
-        "Avant toute décision, comprendre précisément ce que vous portez aujourd’hui — et ce que l’inaction est en train de produire.",
+      type: "localeText",
     }),
 
     defineField({
       name: "bottomCtaLabel",
       title: "Libellé bouton fin de page",
-      type: "string",
-      initialValue: "Échanger confidentiellement",
+      type: "localeString",
     }),
 
     defineField({
@@ -310,18 +293,14 @@ export default defineType({
     defineField({
       name: "seoTitle",
       title: "SEO title",
-      type: "string",
-      initialValue: "Notre méthode | La Voix du Viager",
+      type: "localeString",
       validation: (Rule) => Rule.max(70),
     }),
 
     defineField({
       name: "seoDescription",
       title: "SEO description",
-      type: "text",
-      rows: 3,
-      initialValue:
-        "Une méthode d’accompagnement patrimonial pour examiner viager, nue-propriété et démembrement avec précision, clarté et exigence.",
+      type: "localeText",
       validation: (Rule) => Rule.max(170),
     }),
 
