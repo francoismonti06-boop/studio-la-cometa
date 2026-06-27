@@ -8,20 +8,19 @@ export default defineType({
     defineField({
       name: "eyebrow",
       title: "Sur-titre",
-      type: "string",
+      type: "localeString",
       validation: (Rule) => Rule.max(80),
     }),
     defineField({
       name: "title",
       title: "Titre",
-      type: "string",
+      type: "localeString",
       validation: (Rule) => Rule.required().max(120),
     }),
     defineField({
       name: "text",
       title: "Texte",
-      type: "text",
-      rows: 4,
+      type: "localeText",
       validation: (Rule) => Rule.required().max(400),
     }),
   ],
