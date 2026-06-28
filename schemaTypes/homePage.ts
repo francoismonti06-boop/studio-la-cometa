@@ -63,7 +63,7 @@ export default {
             {
               name: "alt",
               title: "Texte alternatif",
-              type: "string",
+              type: "localeString",
             },
           ],
         },
@@ -176,7 +176,7 @@ export default {
             {
               name: "eyebrow",
               title: "Sur-titre",
-              type: "string",
+              type: "localeString",
             },
             {
               name: "title",
