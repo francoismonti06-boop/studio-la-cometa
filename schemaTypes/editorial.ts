@@ -543,7 +543,7 @@ export default defineType({
             defineField({
               name: "label",
               title: "Titre",
-              type: "string",
+              type: "localeString",
               validation: (Rule) => Rule.required().max(160),
             }),
             defineField({
@@ -579,8 +579,7 @@ export default defineType({
             defineField({
               name: "note",
               title: "Note",
-              type: "text",
-              rows: 3,
+              type: "localeText",
               validation: (Rule) => Rule.max(280),
             }),
           ],
