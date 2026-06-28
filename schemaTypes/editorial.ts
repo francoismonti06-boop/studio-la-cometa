@@ -609,13 +609,12 @@ export default defineType({
         defineField({
           name: "metaTitle",
           title: "Meta title",
-          type: "string",
+          type: "localeString",
         }),
         defineField({
           name: "metaDescription",
           title: "Meta description",
-          type: "text",
-          rows: 3,
+          type: "localeText",
         }),
       ],
     }),
