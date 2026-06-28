@@ -15,19 +15,18 @@ export default defineType({
     defineField({
       name: 'eyebrow',
       title: 'Sur-titre',
-      type: 'string',
+      type: 'localeString',
     }),
     defineField({
       name: 'heroTitle',
       title: 'Titre du hero',
-      type: 'string',
+      type: 'localeString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'heroText',
       title: 'Texte du hero',
-      type: 'text',
-      rows: 4,
+      type: 'localeText',
     }),
     defineField({
       name: 'heroImage',
@@ -40,37 +39,34 @@ export default defineType({
         defineField({
           name: 'alt',
           title: 'Texte alternatif',
-          type: 'string',
+          type: 'localeString',
         }),
       ],
     }),
     defineField({
       name: 'intro',
       title: 'Texte d’introduction',
-      type: 'text',
-      rows: 5,
+      type: 'localeText',
     }),
     defineField({
       name: 'ctaTitle',
       title: 'Titre du bloc d’action',
-      type: 'string',
+      type: 'localeString',
     }),
     defineField({
       name: 'ctaText',
       title: 'Texte du bloc d’action',
-      type: 'text',
-      rows: 4,
+      type: 'localeText',
     }),
     defineField({
       name: 'emptyStateTitle',
       title: 'Titre état vide',
-      type: 'string',
+      type: 'localeString',
     }),
     defineField({
       name: 'emptyStateText',
       title: 'Texte état vide',
-      type: 'text',
-      rows: 4,
+      type: 'localeText',
     }),
     defineField({
       name: 'seo',
@@ -80,14 +76,13 @@ export default defineType({
         defineField({
           name: 'metaTitle',
           title: 'Meta title',
-          type: 'string',
+          type: 'localeString',
           validation: (Rule) => Rule.max(70),
         }),
         defineField({
           name: 'metaDescription',
           title: 'Meta description',
-          type: 'text',
-          rows: 3,
+          type: 'localeText',
           validation: (Rule) => Rule.max(180),
         }),
       ],
