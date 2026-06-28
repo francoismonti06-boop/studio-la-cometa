@@ -53,6 +53,16 @@ Use:
 
 Avoid relying on generic workspace searches when specific files are known.
 
+## Agent Execution
+
+For large files:
+
+- Ask the agent to work incrementally.
+- One logical change per diff.
+- Review each diff before continuing.
+- Reject any unrelated modification before proceeding.
+- If the agent encounters ambiguous replacements, require it to narrow the context before editing instead of broad replacements.
+
 ## Review
 
 Before considering the task complete:
