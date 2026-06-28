@@ -1,4 +1,4 @@
-import { defineType, defineField } from "sanity";
+import {defineField, defineType} from "sanity";
 
 export default defineType({
   name: "cinematicManifestoBlock",
@@ -10,14 +10,15 @@ export default defineType({
       title: "Slides",
       type: "array",
       of: [
-        defineType({
+        defineField({
+          name: "slide",
+          title: "Slide",
           type: "object",
           fields: [
             defineField({
               name: "text",
               title: "Texte",
-              type: "text",
-              rows: 3,
+              type: "localeText",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
