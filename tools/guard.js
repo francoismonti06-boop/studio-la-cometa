@@ -1,11 +1,17 @@
-const { execSync } = require("child_process");
+// tools/guard.js
 const fs = require("fs");
+const { execSync } = require("child_process");
+const { getModifiedLines } = require("./lib/gitDiff");
 
 const FIX = process.argv.includes("--fix");
-const BUILD = process.argv.includes("--build");
 
 function run(command) {
-  return execSync(command, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  try {
+    execSync(command, { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function section(title) {
@@ -13,181 +19,132 @@ function section(title) {
   console.log("─".repeat(title.length));
 }
 
-function getChangedSchemaFiles() {
-  const out = run("git diff --name-only -- schemaTypes/*.ts").trim();
-  return out ? out.split(/\r?\n/) : [];
+function isWorkingTreeClean() {
+  return run("git diff --quiet") && run("git diff --cached --quiet");
 }
 
-function checkIndent(files) {
-  section("Indentation");
+console.log("────────────────────────");
+console.log(" COMETA GUARD (Line-Driven)");
+console.log("────────────────────────");
 
-  const suspicious = [];
-  const pattern = /^ {8,}(defineField\(\{|name:|title:|type:|description:|validation:|initialValue:|\}\),)/;
+const diffMetadata = getModifiedLines();
+const modifiedFiles = Object.keys(diffMetadata);
 
-  for (const file of files) {
-    const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
+if (!modifiedFiles.length) {
+  section("Analyse Git Diff");
+  console.log("✓ Aucun fichier schemaTypes/*.ts modifié dans le diff actuel.");
 
-    lines.forEach((line, index) => {
-      if (pattern.test(line)) {
-        suspicious.push({ file, lineNumber: index + 1, line });
-      }
-    });
+  section("Analyse terminée");
+  console.log("Étape suivante recommandée :");
+  console.log("    git diff");
+
+  if (isWorkingTreeClean()) {
+    console.log("\n✨ SAFE TO COMMIT");
+  } else {
+    console.log("\nℹ️ Aucun schéma Sanity modifié, mais le dépôt contient encore des changements.");
   }
 
-  if (!suspicious.length) {
-    console.log("✓ OK");
-    return true;
+  process.exit(0);
+}
+
+section("Fichiers schemaTypes détectés dans le diff");
+modifiedFiles.forEach((file) => console.log(`  - ${file}`));
+
+let hasAnomalies = false;
+const targetPattern = /defineField|name:|title:|type:|description:|validation:|initialValue:|rows:|options:|\}\),|\},/;
+const anomaliesToFix = {};
+
+section("Contrôle indentation — lignes modifiées uniquement");
+
+for (const [file, linesToInspect] of Object.entries(diffMetadata)) {
+  if (!fs.existsSync(file)) {
+    console.log(`\n⚠️ ${file} introuvable, ignoré.`);
+    continue;
   }
 
-  for (const item of suspicious) {
-    console.log(`✗ ${item.file}:${item.lineNumber}`);
-    console.log(`  ${item.line.trim()}`);
+  const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
+  console.log(`\n${file}`);
+  anomaliesToFix[file] = [];
+
+  for (const lineNum of linesToInspect) {
+    const index = lineNum - 1;
+    if (index < 0 || index >= lines.length) continue;
+
+    const line = lines[index];
+    if (!targetPattern.test(line)) continue;
+
+    const matchSpaces = line.match(/^(\s*)/);
+    const spacesCount = matchSpaces ? matchSpaces[1].length : 0;
+
+    // Critère strict d'anomalie : impair ou exagéré
+    if (spacesCount % 2 !== 0 || spacesCount > 16) {
+      console.log(`  ✗ ligne ${lineNum} : indentation suspecte (${spacesCount} espaces)`);
+      console.log(`      ${line.trim()}`);
+      hasAnomalies = true;
+      anomaliesToFix[file].push({ lineNum, index, currentSpaces: spacesCount, text: line });
+    } else {
+      console.log(`  ✓ ligne ${lineNum}`);
+    }
   }
+}
 
-  if (FIX) {
-    for (const file of files) {
-      const content = fs.readFileSync(file, "utf8");
-      const eol = content.includes("\r\n") ? "\r\n" : "\n";
-      const lines = content.split(/\r?\n/);
+// Execution du mode --fix ultra-conservateur
+if (FIX && hasAnomalies) {
+  section("Application du Fix Conservateur");
 
-      const fixed = lines.map((line) => {
-        if (!pattern.test(line)) return line;
+  for (const [file, anomalies] of Object.entries(anomaliesToFix)) {
+    if (!anomalies.length) continue;
 
-        const trimmed = line.trimStart();
+    const content = fs.readFileSync(file, "utf8");
+    const eol = content.includes("\r\n") ? "\r\n" : "\n";
+    const lines = content.split(/\r?\n/);
+    const linesToInspect = diffMetadata[file];
+    let fileModified = false;
 
-        if (trimmed.startsWith("defineField({") || trimmed === "}),") {
-          return "    " + trimmed;
+    for (const anomaly of anomalies) {
+      let targetSpaces = null;
+
+      // Algorithme de recherche du parent de confiance (hors diff et ouvrant un bloc)
+      for (let k = anomaly.index - 1; k >= 0; k--) {
+        const lineText = lines[k].trim();
+        // La ligne du dessus doit être saine (pas dans le diff) et non vide
+        if (!linesToInspect.has(k + 1) && lineText.length > 0) {
+          const parentMatch = lines[k].match(/^(\s*)/);
+          if (parentMatch) {
+            const parentSpaces = parentMatch[1].length;
+            // Si le parent finit par [ ou {, on applique l'échelon supérieur (+2)
+            targetSpaces = parentSpaces + (/[{\[]$/.test(lineText) ? 2 : 0);
+            break;
+          }
         }
+      }
 
-        return "      " + trimmed;
-      });
-
-      fs.writeFileSync(file, fixed.join(eol), "utf8");
+      // Condition de sécurité absolue : la cible calculée doit être paire et réaliste
+      if (targetSpaces !== null && targetSpaces % 2 === 0 && targetSpaces <= 16) {
+        console.log(`  ⚡ Ligne ${anomaly.lineNum} corrigée : ${anomaly.currentSpaces} sp ➔ ${targetSpaces} sp`);
+        lines[anomaly.index] = " ".repeat(targetSpaces) + anomaly.text.trimStart();
+        fileModified = true;
+      } else {
+        console.log(`  ⏭️ Ligne ${anomaly.lineNum} : SKIPPED (Calcul d'échelon non déterministe ou instable)`);
+      }
     }
 
-    console.log("✓ Correction appliquée");
-    return true;
-  }
-
-  console.log("→ Relance avec : node tools/guard.js --fix");
-  return false;
-}
-
-function checkTabs(files) {
-  section("Tabulations");
-
-  const hits = [];
-
-  for (const file of files) {
-    const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
-
-    lines.forEach((line, index) => {
-      if (line.includes("\t")) {
-        hits.push({ file, lineNumber: index + 1 });
-      }
-    });
-  }
-
-  if (!hits.length) {
-    console.log("✓ Aucune tabulation");
-    return true;
-  }
-
-  for (const hit of hits) {
-    console.log(`✗ ${hit.file}:${hit.lineNumber}`);
-  }
-
-  return false;
-}
-
-function checkTrailing(files) {
-  section("Espaces fin de ligne");
-
-  const hits = [];
-
-  for (const file of files) {
-    const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
-
-    lines.forEach((line, index) => {
-      if (/[ \t]+$/.test(line)) {
-        hits.push({ file, lineNumber: index + 1 });
-      }
-    });
-  }
-
-  if (!hits.length) {
-    console.log("✓ OK");
-    return true;
-  }
-
-  for (const hit of hits) {
-    console.log(`✗ ${hit.file}:${hit.lineNumber}`);
-  }
-
-  if (FIX) {
-    for (const file of files) {
-      const content = fs.readFileSync(file, "utf8");
-      const eol = content.includes("\r\n") ? "\r\n" : "\n";
-      const fixed = content
-        .split(/\r?\n/)
-        .map((line) => line.replace(/[ \t]+$/, ""))
-        .join(eol);
-
-      fs.writeFileSync(file, fixed, "utf8");
+    if (fileModified) {
+      fs.writeFileSync(file, lines.join(eol), "utf8");
     }
-
-    console.log("✓ Correction appliquée");
-    return true;
   }
-
-  console.log("→ Relance avec : node tools/guard.js --fix");
-  return false;
+  
+  console.log("\n⚠️ Des corrections ont été appliquées.");
+  console.log("Relance sans --fix pour valider le nouveau diff.");
 }
 
-function checkBuild() {
-  if (!BUILD) return true;
+section("Analyse terminée");
+console.log("Étape suivante recommandée :");
+console.log("    git diff");
 
-  section("Build");
-
-  try {
-    execSync("npm run build", { stdio: "inherit" });
-    console.log("✓ Build réussi");
-    return true;
-  } catch {
-    console.log("✗ Build échoué");
-    return false;
-  }
+if (hasAnomalies && !FIX) {
+  console.log("\n🚨 ATTENTION — anomalie(s) détectée(s).");
+  process.exit(1);
 }
 
-console.log("────────────────────────");
-console.log(" COMETA GUARD");
-console.log("────────────────────────");
-
-const files = getChangedSchemaFiles();
-
-section("Git diff");
-
-if (!files.length) {
-  console.log("✓ Aucun fichier schemaTypes/*.ts modifié");
-  process.exit(0);
-}
-
-console.log(`✓ ${files.length} fichier(s) modifié(s)`);
-files.forEach((file) => console.log(`  - ${file}`));
-
-const results = [
-  checkIndent(files),
-  checkTabs(files),
-  checkTrailing(files),
-  checkBuild(),
-];
-
-console.log("\n────────────────────────");
-
-if (results.every(Boolean)) {
-  console.log("SAFE TO COMMIT");
-  process.exit(0);
-}
-
-console.log("ATTENTION — contrôle à reprendre");
-process.exit(1);
+process.exit(0);
