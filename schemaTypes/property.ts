@@ -951,9 +951,9 @@ defineField({
             defineField({
               name: 'label',
               title: 'Libellé',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.required(),
-            }),
+              }),
             defineField({
               name: 'featured',
               title: 'Mettre en avant',
