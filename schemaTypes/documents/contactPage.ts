@@ -15,14 +15,13 @@ export default defineType({
     defineField({
       name: 'headline',
       title: 'Titre principal',
-      type: 'string',
+      type: 'localeString',
       validation: (Rule) => Rule.required().max(120),
     }),
     defineField({
       name: 'excerpt',
       title: 'Chapô',
-      type: 'text',
-      rows: 3,
+      type: 'localeText',
       validation: (Rule) => Rule.max(220),
     }),
     defineField({
@@ -36,7 +35,7 @@ export default defineType({
         defineField({
           name: 'alt',
           title: 'Texte alternatif',
-          type: 'string',
+          type: 'localeString',
         }),
       ],
     }),
@@ -89,8 +88,7 @@ export default defineType({
     defineField({
       name: 'sidebarIntroTitle',
       title: 'Sidebar — titre du premier bloc',
-      type: 'string',
-      initialValue: 'Premier échange',
+      type: 'localeString',
       validation: (Rule) => Rule.max(80),
     }),
     defineField({
@@ -101,8 +99,7 @@ export default defineType({
         defineField({
           name: 'sidebarIntroItem',
           title: 'Texte',
-          type: 'text',
-          rows: 3,
+          type: 'localeText',
           validation: (Rule) => Rule.max(260),
         }),
       ],
@@ -111,8 +108,7 @@ export default defineType({
     defineField({
       name: 'sidebarBenefitsTitle',
       title: 'Sidebar — titre du second bloc',
-      type: 'string',
-      initialValue: 'Ce que permet cet échange',
+      type: 'localeString',
       validation: (Rule) => Rule.max(80),
     }),
     defineField({
@@ -128,14 +124,13 @@ export default defineType({
             defineField({
               name: 'title',
               title: 'Titre',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.required().max(40),
             }),
             defineField({
               name: 'text',
               title: 'Texte',
-              type: 'text',
-              rows: 3,
+              type: 'localeText',
               validation: (Rule) => Rule.required().max(220),
             }),
           ],
@@ -153,14 +148,13 @@ export default defineType({
     defineField({
       name: 'seoTitle',
       title: 'SEO title',
-      type: 'string',
+      type: 'localeString',
       validation: (Rule) => Rule.max(70),
     }),
     defineField({
       name: 'seoDescription',
       title: 'SEO description',
-      type: 'text',
-      rows: 3,
+      type: 'localeText',
       validation: (Rule) => Rule.max(170),
     }),
     defineField({
