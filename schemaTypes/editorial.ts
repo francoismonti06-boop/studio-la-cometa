@@ -129,19 +129,18 @@ export default defineType({
     defineField({
       name: "headline",
       title: "Titre principal",
-      type: "string",
+      type: "localeString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "eyebrow",
       title: "Sur-titre",
-      type: "string",
+      type: "localeString",
     }),
     defineField({
       name: "excerpt",
       title: "Résumé / chapô",
-      type: "text",
-      rows: 3,
+      type: "localeText",
     }),
 
     defineField({
@@ -153,7 +152,7 @@ export default defineType({
         defineField({
           name: "alt",
           title: "Texte alternatif",
-          type: "string",
+          type: "localeString",
         }),
       ],
     }),
@@ -271,13 +270,12 @@ export default defineType({
             defineField({
               name: "title",
               title: "Titre",
-              type: "string",
+              type: "localeString",
             }),
             defineField({
               name: "text",
               title: "Texte",
-              type: "text",
-              rows: 3,
+              type: "localeText",
             }),
             defineField({
               name: "href",
