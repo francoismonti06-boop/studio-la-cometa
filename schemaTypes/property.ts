@@ -536,9 +536,9 @@ defineField({
             defineField({
               name: 'alt',
               title: 'Texte alternatif',
-              type: 'string',
+              type: 'localeString',
               description: 'Description courte du média pour l’accessibilité.',
-            }),
+              }),
           ],
           preview: {
             select: {
