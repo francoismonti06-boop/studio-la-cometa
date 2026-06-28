@@ -451,7 +451,7 @@ export default defineType({
                 defineField({
                   name: "title",
                   title: "Titre",
-                  type: "string",
+                  type: "localeString",
                   validation: (Rule) => Rule.required().max(120),
                 }),
                 defineField({
@@ -487,7 +487,7 @@ export default defineType({
                 defineField({
                   name: "linkLabel",
                   title: "Libellé du lien",
-                  type: "string",
+                  type: "localeString",
                   initialValue: "Lire",
                   validation: (Rule) => Rule.max(40),
                 }),
