@@ -432,8 +432,7 @@ export default defineType({
         defineField({
           name: "text",
           title: "Texte d’introduction",
-          type: "text",
-          rows: 3,
+          type: "localeText",
           initialValue:
             "Des repères utiles pour clarifier les mécanismes et avancer avec plus de recul.",
           validation: (Rule) => Rule.max(240),
