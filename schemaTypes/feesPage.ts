@@ -15,15 +15,13 @@ export default defineType({
     defineField({
       name: 'pageTitle',
       title: 'Titre affiché',
-      type: 'string',
-      initialValue: 'Barème des honoraires',
+      type: 'localeString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'intro',
       title: 'Introduction',
-      type: 'text',
-      rows: 4,
+      type: 'localeText',
     }),
     defineField({
       name: 'heroImage',
@@ -36,7 +34,7 @@ export default defineType({
         defineField({
           name: 'alt',
           title: 'Texte alternatif',
-          type: 'string',
+          type: 'localeString',
           validation: (Rule) =>
             Rule.required().warning(
               'Ajoutez une description sobre de l’image pour l’accessibilité.'
@@ -56,13 +54,13 @@ export default defineType({
             defineField({
               name: 'range',
               title: 'Tranche',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'fee',
               title: 'Honoraires',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.required(),
             }),
           ],
@@ -79,8 +77,7 @@ export default defineType({
     defineField({
       name: 'footerNote',
       title: 'Note de bas de page',
-      type: 'text',
-      rows: 3,
+      type: 'localeText',
     }),
   ],
   preview: {
