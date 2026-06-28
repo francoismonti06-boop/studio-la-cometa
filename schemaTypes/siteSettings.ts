@@ -14,52 +14,46 @@ export default defineType({
     }),
 
     defineField({
-      name: 'navigation',
-      title: 'Navigation principale',
-      type: 'array',
-      initialValue: [
-        {label: 'Accueil', href: '/'},
-        {label: 'Comprendre', href: '/editorial'},
-        {label: 'Adresses', href: '/nos-biens'},
-        {label: 'Agir', href: '/contact'},
-      ],
-      validation: (Rule) => Rule.max(7),
-      of: [
-        {
-          type: 'object',
-          name: 'navItem',
-          fields: [
-            defineField({
-              name: 'label',
-              title: 'Libellé',
-              type: 'string',
+          name: 'navigation',
+          title: 'Navigation principale',
+          type: 'array',
+          validation: (Rule) => Rule.max(7),
+          of: [
+            {
+              type: 'object',
+              name: 'navItem',
+              fields: [
+                defineField({
+                name: 'label',
+                title: 'Libellé',
+                type: 'localeString',
               validation: (Rule) => Rule.required().min(1).max(24),
-            }),
-            defineField({
-              name: 'href',
-              title: 'Lien',
-              type: 'string',
-              description:
-                'Exemples : /, /editorial, /nos-biens, /contact',
-              validation: (Rule) =>
-                Rule.required().custom((value) => {
-                  if (!value) return 'Le lien est obligatoire'
-                  if (!value.startsWith('/')) {
-                    return 'Le lien doit commencer par /'
-                  }
-                  return true
                 }),
-            }),
-          ],
-          preview: {
-            select: {
-              title: 'label',
-              subtitle: 'href',
+                defineField({
+                name: 'href',
+                title: 'Lien',
+                type: 'string',
+                description:
+                    'Exemples : /, /editorial, /nos-biens, /contact',
+                validation: (Rule) =>
+                    Rule.required().custom((value) => {
+                      if (!value) return 'Le lien est obligatoire'
+                      if (!value.startsWith('/')) {
+                        return 'Le lien doit commencer par /'
+                      }
+                      return true
+                }),
+                }),
+              ],
+              preview: {
+                select: {
+                title: 'label',
+                subtitle: 'href',
+                },
+              },
             },
-          },
-        },
-      ],
-    }),
+          ],
+        }),
 
     defineField({
       name: 'contactName',
@@ -70,12 +64,12 @@ export default defineType({
     }),
 
     defineField({
-      name: 'contactRole',
-      title: 'Fonction / rôle',
-      type: 'string',
-      initialValue: 'Conseil en viager & nue-propriété',
-      validation: (Rule) => Rule.max(120),
-    }),
+          name: 'contactRole',
+          title: 'Fonction / rôle',
+          type: 'localeString',
+          initialValue: 'Conseil en viager & nue-propriété',
+          validation: (Rule) => Rule.max(120),
+        }),
 
     defineField({
       name: 'contactBrand',
@@ -86,21 +80,21 @@ export default defineType({
     }),
 
     defineField({
-      name: 'contactImage',
-      title: 'Photo du contact',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Texte alternatif',
-          type: 'string',
-          validation: (Rule) => Rule.max(120),
+          name: 'contactImage',
+          title: 'Photo du contact',
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Texte alternatif',
+              type: 'localeString',
+              validation: (Rule) => Rule.max(120),
+            }),
+          ],
         }),
-      ],
-    }),
   ],
   preview: {
     select: {
