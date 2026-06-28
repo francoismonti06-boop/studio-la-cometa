@@ -32,7 +32,6 @@ export default {
           name: "text",
           title: "Texte",
           type: "localeText",
-          rows: 4,
         },
         {
           name: "primaryLabel",
@@ -148,7 +147,6 @@ export default {
               name: "text",
               title: "Texte",
               type: "localeText",
-              rows: 4,
               validation: (Rule: any) => Rule.required(),
             },
           ],
@@ -188,7 +186,6 @@ export default {
               name: "text",
               title: "Texte",
               type: "localeText",
-              rows: 4,
             },
             {
               name: "href",
@@ -233,7 +230,6 @@ export default {
               name: "text",
               title: "Texte",
               type: "localeText",
-              rows: 3,
               validation: (Rule: any) => Rule.required(),
             },
           ],
@@ -265,7 +261,6 @@ export default {
               name: "text",
               title: "Texte",
               type: "localeText",
-              rows: 4,
             },
           ],
           preview: {
@@ -293,7 +288,6 @@ export default {
           name: "metaDescription",
           title: "Meta description",
           type: "localeText",
-          rows: 3,
           validation: (Rule: any) => Rule.max(160),
         },
         {
