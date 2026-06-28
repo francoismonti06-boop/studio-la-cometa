@@ -418,14 +418,14 @@ export default defineType({
         defineField({
           name: "eyebrow",
           title: "Sur-titre du bloc",
-          type: "string",
+          type: "localeString",
           initialValue: "Pour prolonger la lecture",
           validation: (Rule) => Rule.max(80),
         }),
         defineField({
           name: "title",
           title: "Titre du bloc",
-          type: "string",
+          type: "localeString",
           initialValue: "Quelques pistes pour aller plus loin",
           validation: (Rule) => Rule.max(120),
         }),
