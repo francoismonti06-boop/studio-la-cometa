@@ -246,22 +246,21 @@ defineField({
             defineField({
               name: 'eyebrow',
               title: 'Surtitre',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.max(80),
-            }),
-            defineField({
+              }),
+              defineField({
               name: 'title',
               title: 'Titre',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.max(120),
-            }),
-            defineField({
+              }),
+              defineField({
               name: 'text',
               title: 'Texte',
-              type: 'text',
-              rows: 5,
+              type: 'localeText',
               validation: (Rule) => Rule.max(500),
-            }),
+              }),
           ],
           preview: {
             select: {
@@ -285,22 +284,22 @@ defineField({
             defineField({
               name: 'eyebrow',
               title: 'Surtitre',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.max(80),
-            }),
-            defineField({
+              }),
+              defineField({
               name: 'title',
               title: 'Titre',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.max(120),
-            }),
-            defineField({
+              }),
+              defineField({
               name: 'items',
               title: 'Points',
               type: 'array',
-              of: [{type: 'string'}],
+              of: [{type: 'localeString'}],
               validation: (Rule) => Rule.max(6),
-            }),
+              }),
           ],
           preview: {
             select: {
@@ -326,16 +325,15 @@ defineField({
             defineField({
               name: 'text',
               title: 'Citation',
-              type: 'text',
-              rows: 4,
+              type: 'localeText',
               validation: (Rule) => Rule.max(320),
-            }),
-            defineField({
+              }),
+              defineField({
               name: 'caption',
               title: 'Signature / précision',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.max(100),
-            }),
+              }),
           ],
           preview: {
             select: {
@@ -359,30 +357,27 @@ defineField({
             defineField({
               name: 'eyebrow',
               title: 'Surtitre',
-              type: 'string',
-              initialValue: 'Situation associée',
+              type: 'localeString',
               validation: (Rule) => Rule.max(80),
-            }),
-            defineField({
+              }),
+              defineField({
               name: 'title',
               title: 'Titre',
-              type: 'string',
+              type: 'localeString',
               validation: (Rule) => Rule.required().max(120),
-            }),
-            defineField({
+              }),
+              defineField({
               name: 'text',
               title: 'Texte',
-              type: 'text',
-              rows: 3,
+              type: 'localeText',
               validation: (Rule) => Rule.max(260),
-            }),
-            defineField({
+              }),
+              defineField({
               name: 'ctaLabel',
               title: 'Libellé du lien',
-              type: 'string',
-              initialValue: 'Découvrir cette situation',
+              type: 'localeString',
               validation: (Rule) => Rule.max(50),
-            }),
+              }),
             defineField({
               name: 'href',
               title: 'Lien',
@@ -399,12 +394,12 @@ defineField({
               },
               fields: [
                 defineField({
-                  name: 'alt',
-                  title: 'Texte alternatif',
-                  type: 'string',
-                  description: 'Description courte de l’image pour l’accessibilité.',
-                  validation: (Rule) => Rule.max(140),
-                }),
+                name: 'alt',
+                title: 'Texte alternatif',
+                type: 'localeString',
+                description: 'Description courte de l’image pour l’accessibilité.',
+                validation: (Rule) => Rule.max(140),
+              }),
               ],
             }),
           ],
