@@ -53,13 +53,11 @@ export default defineType({
           name: 'soldHighlightsEyebrow',
           title: 'Sur-titre de la section — situations vendues',
           type: 'localeString',
-          initialValue: 'Situations vendues',
         }),
     defineField({
           name: 'soldHighlightsTitle',
           title: 'Titre de la section — situations vendues',
           type: 'localeString',
-          initialValue: 'Des arbitrages devenus concrets',
         }),
     defineField({
       name: 'soldHighlights',
