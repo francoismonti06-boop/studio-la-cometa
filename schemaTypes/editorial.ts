@@ -369,12 +369,12 @@ export default defineType({
             defineField({
               name: "title",
               title: "Titre",
-              type: "string",
+              type: "localeString",
             }),
             defineField({
               name: "subtitle",
               title: "Sous-titre",
-              type: "string",
+              type: "localeString",
             }),
             defineField({
               name: "href",
@@ -390,7 +390,7 @@ export default defineType({
                 defineField({
                   name: "alt",
                   title: "Texte alternatif",
-                  type: "string",
+                  type: "localeString",
                 }),
               ],
             }),
