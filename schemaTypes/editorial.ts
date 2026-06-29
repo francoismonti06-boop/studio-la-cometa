@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { pickLocale } from "./utils/preview";
 import { ModularContentInput } from "./components/ModularContentInput";
 import { defineType, defineField, defineArrayMember } from "sanity";
 
@@ -640,9 +641,14 @@ export default defineType({
     },
     prepare(selection) {
       const { title, fallbackTitle, subtitle, media } = selection || {};
+
+      const displayTitle = pickLocale(title);
+      const displayFallbackTitle = pickLocale(fallbackTitle);
+      const displaySubtitle = pickLocale(subtitle);
+
       return {
-        title: title || fallbackTitle || "Sans titre",
-        subtitle: subtitle || "Éditorial",
+        title: displayTitle || displayFallbackTitle || "Sans titre",
+        subtitle: displaySubtitle || "Éditorial",
         media,
       };
     },

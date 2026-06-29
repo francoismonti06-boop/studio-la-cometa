@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import { pickLocale } from './utils/preview'
 
 const isViager = (document: {transactionType?: string} | undefined) =>
   document?.transactionType === 'viager'
@@ -268,9 +269,12 @@ defineField({
               subtitle: 'eyebrow',
             },
             prepare(selection) {
+              const displayTitle = pickLocale(selection.title)
+              const displaySubtitle = pickLocale(selection.subtitle)
+
               return {
-                title: selection.title || 'Bloc information',
-                subtitle: selection.subtitle || 'Sidebar',
+                title: displayTitle || 'Bloc information',
+                subtitle: displaySubtitle || 'Sidebar',
               }
             },
           },
@@ -307,10 +311,11 @@ defineField({
               items: 'items',
             },
             prepare(selection) {
+              const displayTitle = pickLocale(selection.title)
               const count = Array.isArray(selection.items) ? selection.items.length : 0
 
               return {
-                title: selection.title || 'Points clés',
+                title: displayTitle || 'Points clés',
                 subtitle: `${count} point${count > 1 ? 's' : ''}`,
               }
             },
@@ -341,9 +346,12 @@ defineField({
               subtitle: 'caption',
             },
             prepare(selection) {
+              const displayTitle = pickLocale(selection.title)
+              const displaySubtitle = pickLocale(selection.subtitle)
+
               return {
-                title: selection.title || 'Citation',
-                subtitle: selection.subtitle || 'Sidebar',
+                title: displayTitle || 'Citation',
+                subtitle: displaySubtitle || 'Sidebar',
               }
             },
           },
@@ -410,9 +418,12 @@ defineField({
               media: 'image',
             },
             prepare(selection) {
+              const displayTitle = pickLocale(selection.title)
+              const displaySubtitle = pickLocale(selection.subtitle)
+
               return {
-                title: selection.title || 'Situation associée',
-                subtitle: selection.subtitle || 'Sidebar',
+                title: displayTitle || 'Situation associée',
+                subtitle: displaySubtitle || 'Sidebar',
                 media: selection.media,
               }
             },
@@ -544,8 +555,9 @@ defineField({
             },
             prepare(selection: any) {
               const {type, media, title, featured, videoUrl} = selection || {}
+              const displayTitle = pickLocale(title)
 
-              const baseTitle = title || (type === 'video' ? 'Vidéo YouTube' : 'Image')
+              const baseTitle = displayTitle || (type === 'video' ? 'Vidéo YouTube' : 'Image')
 
               const subtitleParts = [
                 type === 'video' ? 'Vidéo' : 'Image',
@@ -964,9 +976,10 @@ defineField({
                 title?: string
                 subtitle?: boolean
               }
+              const displayTitle = pickLocale(title)
 
               return {
-                title: title || 'Caractéristique',
+                title: displayTitle || 'Caractéristique',
                 subtitle: subtitle ? 'Mise en avant' : 'Standard',
               }
             },
@@ -1002,6 +1015,10 @@ defineField({
         saleFormula,
         location,
       } = selection || {}
+
+      const displayTitle = pickLocale(title)
+      const displayFallbackTitle = pickLocale(fallbackTitle)
+      const displayLocation = pickLocale(location)
 
       const statusMap: Record<string, string> = {
         available: 'Disponible',
@@ -1046,11 +1063,11 @@ defineField({
           : null,
         saleFormula ? saleFormulaMap[saleFormula] || saleFormula : null,
         status ? statusMap[status] || status : null,
-        location || null,
+        displayLocation || null,
       ].filter(Boolean)
 
       return {
-        title: title || fallbackTitle || 'Sans titre',
+        title: displayTitle || displayFallbackTitle || 'Sans titre',
         subtitle: parts.join(' • '),
         media,
       }

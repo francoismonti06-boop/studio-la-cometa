@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import { pickLocale } from './utils/preview'
 
 export default defineType({
   name: 'propertyIndexPage',
@@ -139,9 +140,19 @@ export default defineType({
               status: 'status',
             },
             prepare({title, subtitle, media, propertyType, location, status}) {
+              const displayTitle = pickLocale(title)
+              const displayStatus = pickLocale(status)
+              const displaySubtitle = pickLocale(subtitle)
+              const displayPropertyType = pickLocale(propertyType)
+              const displayLocation = pickLocale(location)
               return {
-                title: title || 'Situation vendue',
-                subtitle: [status, subtitle, propertyType, location].filter(Boolean).join(' · '),
+                title: displayTitle || 'Situation vendue',
+                subtitle: [
+                  displayStatus,
+                  displaySubtitle,
+                  displayPropertyType,
+                  displayLocation,
+                ].filter(Boolean).join(' · '),
                 media,
               }
             },
@@ -188,7 +199,7 @@ export default defineType({
     prepare({title, subtitle}) {
       return {
         title: title || 'Page hub Adresses',
-        subtitle: subtitle || 'Sans titre',
+        subtitle: pickLocale(subtitle) || 'Sans titre',
       }
     },
   },
