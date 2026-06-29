@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {pickLocale} from './utils/preview'
 
 export default defineType({
   name: 'legalPage',
@@ -89,6 +90,13 @@ export default defineType({
       title: 'title',
       subtitle: 'pageTitle',
       media: 'heroImage',
+    },
+    prepare({title, subtitle, media}) {
+      return {
+        title: title || 'Mentions légales',
+        subtitle: pickLocale(subtitle) || 'Sans titre',
+        media,
+      }
     },
   },
 })

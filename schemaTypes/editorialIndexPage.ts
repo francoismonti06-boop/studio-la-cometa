@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {pickLocale} from './utils/preview'
 
 export default defineType({
   name: 'editorialIndexPage',
@@ -96,7 +97,7 @@ export default defineType({
     prepare({title, subtitle}) {
       return {
         title: title || 'Page hub éditoriale',
-        subtitle: subtitle || 'Sans titre',
+        subtitle: pickLocale(subtitle) || 'Sans titre',
       }
     },
   },
