@@ -1,5 +1,7 @@
 // /schemas/homePage.ts
 
+import { pickLocale } from "./utils/preview";
+
 export default {
   name: "homePage",
   title: "Home Page",
@@ -156,10 +158,11 @@ export default {
               subtitle: "eyebrow",
             },
             prepare(selection: any) {
+              const { title, subtitle } = selection || {};
               return {
-                title: selection.title || "Introduction des chemins",
+                title: pickLocale(title) || "Introduction des chemins",
                 subtitle:
-                  selection.subtitle ||
+                  pickLocale(subtitle) ||
                   "Bloc éditorial avant les cartes de navigation",
               };
             },
@@ -238,9 +241,10 @@ export default {
               title: "text",
             },
             prepare(selection: any) {
+              const { title } = selection || {};
               return {
                 title: "Bloc rupture",
-                subtitle: selection.title,
+                subtitle: pickLocale(title),
               };
             },
           },
@@ -267,6 +271,13 @@ export default {
             select: {
               title: "title",
               subtitle: "text",
+            },
+            prepare(selection: any) {
+              const { title, subtitle } = selection || {};
+              return {
+                title: pickLocale(title),
+                subtitle: pickLocale(subtitle),
+              };
             },
           },
         },
