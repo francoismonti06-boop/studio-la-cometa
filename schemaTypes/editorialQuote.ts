@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { pickLocale } from "./utils/preview";
 
 export default defineType({
   name: "editorialQuote",
@@ -25,9 +26,11 @@ export default defineType({
     },
     prepare(selection) {
       const { quote, author } = selection || {};
+      const quoteText = pickLocale(quote);
+      const authorText = pickLocale(author);
       return {
-        title: quote ? `"${quote}"` : "Citation éditoriale",
-        subtitle: author ? `— ${author}` : "Sans auteur",
+        title: quoteText ? `"${quoteText}"` : "Citation éditoriale",
+        subtitle: authorText ? `— ${authorText}` : "Sans auteur",
       };
     },
   },

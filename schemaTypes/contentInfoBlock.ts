@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { pickLocale } from "./utils/preview";
 
 export default defineType({
   name: "contentInfoBlock",
@@ -32,8 +33,8 @@ export default defineType({
     prepare(selection) {
       const { title, subtitle } = selection || {};
       return {
-        title: title || "Bloc d’information",
-        subtitle: subtitle || "Sans sur-titre",
+        title: pickLocale(title) || "Bloc d’information",
+        subtitle: pickLocale(subtitle) || "Sans sur-titre",
       };
     },
   },

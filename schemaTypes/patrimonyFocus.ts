@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { pickLocale } from "./utils/preview";
 
 export default defineType({
   name: "patrimonyFocus",
@@ -12,13 +13,13 @@ export default defineType({
       validation: (Rule) => Rule.required().max(90),
     }),
     defineField({
-  name: "text",
-  title: "Texte",
-  type: "localeText",
-  validation: (Rule) => Rule.required().min(40).max(600),
-  description:
-    "Un encadré clair et pédagogique. Une idée forte, pas un mini-article.",
-}),
+      name: "text",
+      title: "Texte",
+      type: "localeText",
+      validation: (Rule) => Rule.required().min(40).max(600),
+      description:
+        "Un encadré clair et pédagogique. Une idée forte, pas un mini-article.",
+    }),
   ],
   preview: {
     select: {
@@ -27,13 +28,17 @@ export default defineType({
     },
     prepare(selection) {
       const { title, text } = selection || {};
+
+      const titleText = pickLocale(title);
+      const textText = pickLocale(text);
+
       const excerpt =
-        typeof text === "string" && text.length > 80
-          ? `${text.slice(0, 80)}…`
-          : text || "Sans texte";
+        textText && textText.length > 80
+          ? `${textText.slice(0, 80)}…`
+          : textText || "Sans texte";
 
       return {
-        title: title || "Encadré patrimonial",
+        title: titleText || "Encadré patrimonial",
         subtitle: excerpt,
       };
     },
