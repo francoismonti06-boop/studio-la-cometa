@@ -1,7 +1,7 @@
 require("dotenv").config({path: ".env.local"})
 
 const {createClient} = require("@sanity/client")
-const localizedPaths = require("./localizedPaths")
+const portableTextPaths = require("./portableTextPaths")
 
 const mode = process.argv.includes("--apply") ? "apply" : "dry-run"
 
@@ -13,22 +13,22 @@ const client = createClient({
   token: process.env.SANITY_AUTH_TOKEN,
 })
 
-const TARGET_TYPES = Object.keys(localizedPaths)
+const TARGET_TYPES = Object.keys(portableTextPaths)
 
-function toLocale(value) {
-  return {
-    fr: value,
-    en: "",
-  }
-}
-
-function isLocalizedObject(value) {
+function isLocaleBlock(value) {
   return (
     value &&
     typeof value === "object" &&
     !Array.isArray(value) &&
     ("fr" in value || "en" in value)
   )
+}
+
+function toLocaleBlock(value) {
+  return {
+    fr: value,
+    en: [],
+  }
 }
 
 function resolvePathTargets(root, path) {
@@ -78,7 +78,7 @@ function resolvePathTargets(root, path) {
 }
 
 function buildPatches(doc) {
-  const paths = localizedPaths[doc._type] || []
+  const paths = portableTextPaths[doc._type] || []
   const patches = []
 
   for (const declaredPath of paths) {
@@ -87,15 +87,15 @@ function buildPatches(doc) {
     for (const target of targets) {
       const value = target.value
 
-      if (typeof value !== "string") continue
-      if (!value.trim()) continue
-      if (isLocalizedObject(value)) continue
+      if (!Array.isArray(value)) continue
+      if (!value.length) continue
+      if (isLocaleBlock(value)) continue
 
       patches.push({
         declaredPath,
         path: target.path,
-        value: toLocale(value),
-        preview: value,
+        value: toLocaleBlock(value),
+        preview: `${value.length} block(s)`,
       })
     }
   }
@@ -106,7 +106,7 @@ function buildPatches(doc) {
 async function main() {
   console.log(`Mode: ${mode}`)
   console.log("Dataset: production")
-  console.log("Chemins localisés déclarés uniquement.")
+  console.log("Migration PortableText vers localeBlock.")
   console.log("Recherche des documents ciblés...")
 
   const docs = await client.fetch(
@@ -137,7 +137,7 @@ async function main() {
     console.log(`Document: ${doc._type} / ${doc._id}`)
 
     patches.forEach((patch) => {
-      console.log(`  - ${patch.path}: "${patch.preview.slice(0, 90)}"`)
+      console.log(`  - ${patch.path}: ${patch.preview}`)
     })
 
     if (mode === "apply") {
@@ -154,7 +154,7 @@ async function main() {
 
   console.log("")
   console.log("──────────────────────────────")
-  console.log("Migration summary")
+  console.log("PortableText migration summary")
   console.log("──────────────────────────────")
   console.log(`Documents analysés : ${docs.length}`)
   console.log(`Documents modifiés : ${modifiedDocs}`)
@@ -166,13 +166,10 @@ async function main() {
     console.log(`  ${type}: ${statsByType[type] || 0}`)
   }
 
-  console.log("")
-  console.log("PortableText touchés : 0 attendu — vérifier le dry-run.")
-
   if (mode !== "apply") {
     console.log("")
     console.log("Dry-run uniquement. Rien n’a été modifié.")
-    console.log("Pour appliquer : node tools\\migrateLocalizedContent.js --apply")
+    console.log("Pour appliquer : node tools\\migratePortableText.js --apply")
   }
 }
 

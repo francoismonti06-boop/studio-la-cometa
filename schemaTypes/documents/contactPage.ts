@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {pickLocale} from '../utils/preview'
 
 export default defineType({
   name: 'contactPage',
@@ -16,13 +17,12 @@ export default defineType({
       name: 'headline',
       title: 'Titre principal',
       type: 'localeString',
-      validation: (Rule) => Rule.required().max(120),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'excerpt',
       title: 'Chapô',
       type: 'localeText',
-      validation: (Rule) => Rule.max(220),
     }),
     defineField({
       name: 'mainImage',
@@ -89,7 +89,6 @@ export default defineType({
       name: 'sidebarIntroTitle',
       title: 'Sidebar — titre du premier bloc',
       type: 'localeString',
-      validation: (Rule) => Rule.max(80),
     }),
     defineField({
       name: 'sidebarIntroItems',
@@ -100,7 +99,6 @@ export default defineType({
           name: 'sidebarIntroItem',
           title: 'Texte',
           type: 'localeText',
-          validation: (Rule) => Rule.max(260),
         }),
       ],
       validation: (Rule) => Rule.max(5),
@@ -109,7 +107,6 @@ export default defineType({
       name: 'sidebarBenefitsTitle',
       title: 'Sidebar — titre du second bloc',
       type: 'localeString',
-      validation: (Rule) => Rule.max(80),
     }),
     defineField({
       name: 'sidebarBenefits',
@@ -125,19 +122,25 @@ export default defineType({
               name: 'title',
               title: 'Titre',
               type: 'localeString',
-              validation: (Rule) => Rule.required().max(40),
+              validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'text',
               title: 'Texte',
               type: 'localeText',
-              validation: (Rule) => Rule.required().max(220),
+              validation: (Rule) => Rule.required(),
             }),
           ],
           preview: {
             select: {
               title: 'title',
               subtitle: 'text',
+            },
+            prepare({title, subtitle}) {
+              return {
+                title: pickLocale(title) || 'Sans titre',
+                subtitle: pickLocale(subtitle) || 'Sans texte',
+              }
             },
           },
         }),
@@ -149,13 +152,11 @@ export default defineType({
       name: 'seoTitle',
       title: 'SEO title',
       type: 'localeString',
-      validation: (Rule) => Rule.max(70),
     }),
     defineField({
       name: 'seoDescription',
       title: 'SEO description',
       type: 'localeText',
-      validation: (Rule) => Rule.max(170),
     }),
     defineField({
       name: 'noIndex',
@@ -173,7 +174,7 @@ export default defineType({
     prepare({title, subtitle, media}) {
       return {
         title: title || 'Page Contact',
-        subtitle: subtitle || 'Sans titre principal',
+        subtitle: pickLocale(subtitle) || 'Sans titre principal',
         media,
       }
     },

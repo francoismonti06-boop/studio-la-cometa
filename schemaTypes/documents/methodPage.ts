@@ -1,53 +1,7 @@
 import type { ComponentType } from "react";
 import { ModularContentInput } from "../components/ModularContentInput";
 import { defineArrayMember, defineField, defineType } from "sanity";
-
-const methodRichTextBlock = defineArrayMember({
-  type: "block",
-  styles: [
-    { title: "Normal", value: "normal" },
-    { title: "Titre 2", value: "h2" },
-    { title: "Titre 3", value: "h3" },
-    { title: "Titre 4", value: "h4" },
-    { title: "Citation", value: "blockquote" },
-  ],
-  lists: [
-    { title: "Liste à puces", value: "bullet" },
-    { title: "Liste numérotée", value: "number" },
-  ],
-  marks: {
-    decorators: [
-      { title: "Gras", value: "strong" },
-      { title: "Italique", value: "em" },
-      { title: "Souligné", value: "underline" },
-    ],
-    annotations: [
-      defineArrayMember({
-        name: "link",
-        type: "object",
-        title: "Lien",
-        fields: [
-          defineField({
-            name: "href",
-            title: "URL",
-            type: "url",
-            validation: (Rule) =>
-              Rule.uri({
-                allowRelative: true,
-                scheme: ["http", "https", "mailto", "tel"],
-              }),
-          }),
-          defineField({
-            name: "openInNewTab",
-            title: "Ouvrir dans un nouvel onglet",
-            type: "boolean",
-            initialValue: true,
-          }),
-        ],
-      }),
-    ],
-  },
-});
+import { pickLocale } from "../utils/preview";
 
 export default defineType({
   name: "methodPage",
@@ -86,7 +40,7 @@ export default defineType({
       name: "excerpt",
       title: "Chapô",
       type: "localeText",
-      validation: (Rule) => Rule.required().max(520),
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
@@ -120,11 +74,9 @@ export default defineType({
     defineField({
       name: "body",
       title: "Contenu principal",
-      description:
-        "Rédigez directement dans l’éditeur et utilisez le bouton “Ajouter un bloc” pour insérer un encadré, une citation, ou marquer un passage en pleine largeur.",
       type: "array",
       of: [
-        methodRichTextBlock,
+        defineArrayMember({ type: "localizedRichText" }), // 🔹 ICI : Remplacement par le texte riche localisé
         defineArrayMember({
           name: "layoutBreak",
           title: "Passage en pleine largeur",
@@ -143,8 +95,7 @@ export default defineType({
             prepare() {
               return {
                 title: "Passage en pleine largeur",
-                subtitle:
-                  "Le contenu suivant s’affichera sous la sidebar, sur toute la largeur",
+                subtitle: "Le contenu suivant s’affichera sous la sidebar, sur toute la largeur",
               };
             },
           },
@@ -155,12 +106,6 @@ export default defineType({
       components: {
         input: ModularContentInput as unknown as ComponentType<any>,
       },
-      options: {
-        disableActions: ["add"],
-        insertMenu: {
-          views: [{ name: "list" }],
-        },
-      },
       validation: (Rule) => Rule.required().min(1),
     }),
 
@@ -168,12 +113,7 @@ export default defineType({
       name: "sidebarApproach",
       title: "Bloc d’information sidebar",
       type: "contentInfoBlock",
-      description:
-        "Bloc éditorial pour présenter une logique d’accompagnement, une précision ou un angle de méthode.",
-      options: {
-        collapsible: true,
-        collapsed: false,
-      },
+      options: { collapsible: true, collapsed: false },
     }),
 
     defineField({
@@ -192,72 +132,37 @@ export default defineType({
       name: "sidebarCtaLabel",
       title: "Libellé bouton sidebar",
       type: "localeString",
-      description:
-        "Libellé éditorial conservé. Le CTA de sidebar ouvre désormais la modale de contact côté site.",
     }),
 
     defineField({
       name: "sidebarShowcaseItems",
       title: "Éléments sidebar",
       type: "array",
-      description:
-        "Liens éditoriaux ou biens à mettre en avant dans la sidebar.",
       of: [
         defineArrayMember({
           name: "sidebarShowcaseItem",
           title: "Élément sidebar",
           type: "object",
           fields: [
-            defineField({
-              name: "title",
-              title: "Titre",
-              type: "localeString",
-            }),
-            defineField({
-              name: "subtitle",
-              title: "Sous-titre",
-              type: "localeString",
-            }),
-            defineField({
-              name: "href",
-              title: "Lien",
-              type: "string",
-              description:
-                "Exemples : /editorial/mon-article, /nos-biens, /property/slug-du-bien, /contact",
-              validation: (Rule) =>
-                Rule.custom((value) => {
-                  if (!value) return true;
-                  if (
-                    value.startsWith("/") ||
-                    value.startsWith("http://") ||
-                    value.startsWith("https://") ||
-                    value.startsWith("mailto:") ||
-                    value.startsWith("tel:")
-                  ) {
-                    return true;
-                  }
-                  return "Utilise un lien interne commençant par / ou une URL complète.";
-                }),
-            }),
+            defineField({ name: "title", title: "Titre", type: "localeString" }),
+            defineField({ name: "subtitle", title: "Sous-titre", type: "localeString" }),
+            defineField({ name: "href", title: "Lien", type: "string" }),
             defineField({
               name: "image",
               title: "Image",
               type: "image",
               options: { hotspot: true },
-              fields: [
-                defineField({
-                  name: "alt",
-                  title: "Texte alternatif",
-                  type: "localeString",
-                }),
-              ],
+              fields: [{ name: "alt", title: "Texte alternatif", type: "localeString" }],
             }),
           ],
           preview: {
-            select: {
-              title: "title",
-              subtitle: "subtitle",
-              media: "image",
+            select: { title: "title", subtitle: "subtitle", media: "image" },
+            prepare({ title, subtitle, media }) {
+              return {
+                title: pickLocale(title) || "Sans titre",
+                subtitle: pickLocale(subtitle) || "Sans sous-titre",
+                media,
+              };
             },
           },
         }),
@@ -294,14 +199,12 @@ export default defineType({
       name: "seoTitle",
       title: "SEO title",
       type: "localeString",
-      validation: (Rule) => Rule.max(70),
     }),
 
     defineField({
       name: "seoDescription",
       title: "SEO description",
       type: "localeText",
-      validation: (Rule) => Rule.max(170),
     }),
 
     defineField({
@@ -317,6 +220,13 @@ export default defineType({
       title: "title",
       subtitle: "headline",
       media: "mainImage",
+    },
+    prepare({ title, subtitle, media }) {
+      return {
+        title: title || "Page méthode",
+        subtitle: pickLocale(subtitle) || "Sans titre principal",
+        media,
+      };
     },
   },
 });

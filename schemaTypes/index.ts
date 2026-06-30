@@ -1,3 +1,5 @@
+// schemaTypes/index.ts
+
 import property from "./property";
 import editorial from "./editorial";
 import siteSettings from "./siteSettings";
@@ -17,6 +19,7 @@ import contentInfoBlock from "./contentInfoBlock";
 import editorialQuote from "./editorialQuote";
 import patrimonyFocus from "./patrimonyFocus";
 import cinematicManifestoBlock from "./cinematicManifestoBlock";
+import localizedRichText from "./localized/localizedRichText"; // Enregistrement du nouveau type
 
 export const schemaTypes = [
   ...localizedTypes,
@@ -39,4 +42,5 @@ export const schemaTypes = [
   editorialQuote,
   patrimonyFocus,
   cinematicManifestoBlock,
+  localizedRichText, // Ajouté à la liste des schémas
 ];

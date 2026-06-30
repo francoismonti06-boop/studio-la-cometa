@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {pickLocale} from './utils/preview'
 
 export default defineType({
   name: 'feesPage',
@@ -69,6 +70,12 @@ export default defineType({
               title: 'range',
               subtitle: 'fee',
             },
+            prepare({title, subtitle}) {
+              return {
+                title: pickLocale(title) || 'Tranche',
+                subtitle: pickLocale(subtitle) || 'Honoraires',
+              }
+            },
           },
         },
       ],
@@ -85,6 +92,13 @@ export default defineType({
       title: 'title',
       subtitle: 'pageTitle',
       media: 'heroImage',
+    },
+    prepare({title, subtitle, media}) {
+      return {
+        title: title || 'Barème honoraires',
+        subtitle: pickLocale(subtitle) || 'Sans titre affiché',
+        media,
+      }
     },
   },
 })

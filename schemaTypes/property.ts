@@ -85,34 +85,29 @@ defineField({
                 title: 'Sur-titre de carte',
                 type: 'localeString',
                 description: 'Petit texte au-dessus du titre sur la carte.',
-                validation: (Rule) => Rule.max(80),
               }),
         defineField({
                 name: 'title',
                 title: 'Titre de carte',
                 type: 'localeString',
                 description: 'Titre éditorial affiché sur la carte du hub.',
-                validation: (Rule) => Rule.max(120),
               }),
         defineField({
                 name: 'excerpt',
                 title: 'Résumé de carte',
                 type: 'localeText',
                 description: 'Résumé court orienté situation patrimoniale.',
-                validation: (Rule) => Rule.max(220),
               }),
         defineField({
                 name: 'ctaLabel',
                 title: 'Libellé CTA',
                 type: 'localeString',
-                validation: (Rule) => Rule.max(40),
               }),
         defineField({
                 name: 'statusLabel',
                 title: 'Label statut',
                 type: 'localeString',
                 description: 'Ex. Adresse confidentielle, Viager occupé, Nue-propriété.',
-                validation: (Rule) => Rule.max(50),
               }),
       ],
     }),
@@ -139,96 +134,20 @@ defineField({
       group: 'editorial',
     }),
     defineField({
-      name: 'introText',
-      title: 'Intro — texte court',
-      type: 'array',
-      group: 'editorial',
-      description:
-        'Bloc d’introduction sous le hero avec mise en forme légère : paragraphes, gras, italique, souligné, listes et liens.',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
-          lists: [
-            {title: 'Liste à puces', value: 'bullet'},
-            {title: 'Liste numérotée', value: 'number'},
-          ],
-          marks: {
-            decorators: [
-              {title: 'Gras', value: 'strong'},
-              {title: 'Italique', value: 'em'},
-              {title: 'Souligné', value: 'underline'},
-            ],
-            annotations: [
-              defineField({
-                name: 'link',
-                title: 'Lien',
-                type: 'object',
-                fields: [
-                  defineField({
-                    name: 'href',
-                    title: 'URL',
-                    type: 'url',
-                    validation: (Rule) =>
-                      Rule.uri({
-                        scheme: ['http', 'https', 'mailto', 'tel'],
-                      }),
-                  }),
-                ],
-              }),
-            ],
-          },
-        }),
-      ],
+  name: 'introText',
+  title: 'Intro — texte court',
+  type: 'localeBlock',
+  group: 'editorial',
+  description:
+    'Bloc d’introduction sous le hero avec mise en forme légère : paragraphes, gras, italique, souligné, listes et liens.',
     }),
     defineField({
-      name: 'description',
-      title: 'Description longue',
-      type: 'array',
-      group: 'editorial',
-      description:
-        'Texte principal de la fiche bien avec mise en forme simple : paragraphes, intertitres, gras, italique, souligné, listes et liens.',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'Titre 2', value: 'h2'},
-            {title: 'Titre 3', value: 'h3'},
-            {title: 'Titre 4', value: 'h4'},
-            {title: 'Citation', value: 'blockquote'},
-          ],
-          lists: [
-            {title: 'Liste à puces', value: 'bullet'},
-            {title: 'Liste numérotée', value: 'number'},
-          ],
-          marks: {
-            decorators: [
-              {title: 'Gras', value: 'strong'},
-              {title: 'Italique', value: 'em'},
-              {title: 'Souligné', value: 'underline'},
-            ],
-            annotations: [
-              defineField({
-                name: 'link',
-                title: 'Lien',
-                type: 'object',
-                fields: [
-                  defineField({
-                    name: 'href',
-                    title: 'URL',
-                    type: 'url',
-                    validation: (Rule) =>
-                      Rule.uri({
-                        scheme: ['http', 'https', 'mailto', 'tel'],
-                      }),
-                  }),
-                ],
-              }),
-            ],
-          },
-        }),
-      ],
+  name: 'description',
+  title: 'Description longue',
+  type: 'localeBlock',
+  group: 'editorial',
+  description:
+    'Texte principal de la fiche bien avec mise en forme simple : paragraphes, intertitres, gras, italique, souligné, listes et liens.',
     }),
 
     defineField({
@@ -248,19 +167,16 @@ defineField({
               name: 'eyebrow',
               title: 'Surtitre',
               type: 'localeString',
-              validation: (Rule) => Rule.max(80),
               }),
               defineField({
               name: 'title',
               title: 'Titre',
               type: 'localeString',
-              validation: (Rule) => Rule.max(120),
               }),
               defineField({
               name: 'text',
               title: 'Texte',
               type: 'localeText',
-              validation: (Rule) => Rule.max(500),
               }),
           ],
           preview: {
@@ -289,13 +205,11 @@ defineField({
               name: 'eyebrow',
               title: 'Surtitre',
               type: 'localeString',
-              validation: (Rule) => Rule.max(80),
               }),
               defineField({
               name: 'title',
               title: 'Titre',
               type: 'localeString',
-              validation: (Rule) => Rule.max(120),
               }),
               defineField({
               name: 'items',
@@ -331,13 +245,11 @@ defineField({
               name: 'text',
               title: 'Citation',
               type: 'localeText',
-              validation: (Rule) => Rule.max(320),
               }),
               defineField({
               name: 'caption',
               title: 'Signature / précision',
               type: 'localeString',
-              validation: (Rule) => Rule.max(100),
               }),
           ],
           preview: {
@@ -366,25 +278,21 @@ defineField({
               name: 'eyebrow',
               title: 'Surtitre',
               type: 'localeString',
-              validation: (Rule) => Rule.max(80),
               }),
               defineField({
               name: 'title',
               title: 'Titre',
               type: 'localeString',
-              validation: (Rule) => Rule.required().max(120),
               }),
               defineField({
               name: 'text',
               title: 'Texte',
               type: 'localeText',
-              validation: (Rule) => Rule.max(260),
               }),
               defineField({
               name: 'ctaLabel',
               title: 'Libellé du lien',
               type: 'localeString',
-              validation: (Rule) => Rule.max(50),
               }),
             defineField({
               name: 'href',
@@ -406,7 +314,6 @@ defineField({
                 title: 'Texte alternatif',
                 type: 'localeString',
                 description: 'Description courte de l’image pour l’accessibilité.',
-                validation: (Rule) => Rule.max(140),
               }),
               ],
             }),
@@ -447,14 +354,12 @@ defineField({
           title: 'Meta title',
           type: 'localeString',
           description: 'Titre SEO affiché dans les moteurs de recherche.',
-          validation: (Rule) => Rule.max(70),
                 }),
         defineField({
           name: 'metaDescription',
           title: 'Meta description',
           type: 'localeText',
           description: 'Description SEO affichée dans les moteurs de recherche.',
-          validation: (Rule) => Rule.max(180),
                 }),
       ],
     }),

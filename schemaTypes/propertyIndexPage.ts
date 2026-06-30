@@ -99,14 +99,14 @@ export default defineType({
               type: 'localeString',
               description:
                             'Ex. Viager occupé, Vente libre comptant, Vente libre comptant & Viager occupé…',
-              validation: (Rule) => Rule.required().max(120),
+              validation: (Rule) => Rule.required(),
               }),
             defineField({
               name: 'title',
               title: 'Titre éditorial',
               type: 'localeString',
               description: 'Ex. 3 étapes — 3 transactions',
-              validation: (Rule) => Rule.required().max(90),
+              validation: (Rule) => Rule.required(),
               }),
             defineField({
               name: 'propertyType',
@@ -127,7 +127,7 @@ export default defineType({
               type: 'localeText',
               description:
                           'Récit éditorial de la situation : contexte, évolution du projet, décision prise, effet patrimonial. Le texte peut être développé, mais doit rester lisible dans une carte.',
-              validation: (Rule) => Rule.required().max(2200),
+              validation: (Rule) => Rule.required(),
               }),
           ],
           preview: {
@@ -180,13 +180,11 @@ export default defineType({
                 name: 'metaTitle',
                 title: 'Meta title',
                 type: 'localeString',
-                validation: (Rule) => Rule.max(70),
               }),
         defineField({
                 name: 'metaDescription',
                 title: 'Meta description',
                 type: 'localeText',
-                validation: (Rule) => Rule.max(180),
               }),
       ],
     }),

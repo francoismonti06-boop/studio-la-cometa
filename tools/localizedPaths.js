@@ -23,6 +23,9 @@ module.exports = {
     "priceAndRisks.agencyFeesNote",
     "priceAndRisks.georisquesHeading",
     "features[].label",
+	"relatedReading.eyebrow",
+    "relatedReading.title",
+    "relatedReading.text",
   ],
 
   editorial: [
@@ -44,6 +47,9 @@ module.exports = {
     "sources[].note",
     "seo.metaTitle",
     "seo.metaDescription",
+	"sidebarApproach.eyebrow",
+    "sidebarApproach.title",
+    "sidebarApproach.text",
   ],
 
   propertyIndexPage: [
@@ -100,6 +106,69 @@ module.exports = {
     "emptyStateText",
     "seo.metaTitle",
     "seo.metaDescription",
+  ],
+  
+    personProfile: [
+    "eyebrow",
+    "headline",
+    "excerpt",
+    "mainImage.alt",
+    "facts[].label",
+    "facts[].value",
+    "methodTitle",
+    "methodItems[]",
+    "ctaTitle",
+    "ctaText",
+    "seoTitle",
+    "seoDescription",
+  ],
+  
+    homePage: [
+    "hero.eyebrow",
+    "hero.title",
+    "hero.text",
+    "hero.primaryLabel",
+    "hero.secondaryLabel",
+    "hero.image.alt",
+
+    "content[].eyebrow",
+    "content[].title",
+    "content[].text",
+    "content[].linkLabel",
+    "content[].image.alt",
+
+    "seo.metaTitle",
+    "seo.metaDescription",
+  ],
+  
+methodPage: [
+  "eyebrow",
+  "headline",
+  "subtitle",
+  "excerpt",
+
+  "mainImage.alt",
+
+  "readingTime",
+
+  "sidebarApproach.eyebrow",
+  "sidebarApproach.title",
+  "sidebarApproach.text",
+
+  "sidebarTitle",
+  "sidebarText",
+  "sidebarCtaLabel",
+
+  "sidebarShowcaseItems[].title",
+  "sidebarShowcaseItems[].subtitle",
+  "sidebarShowcaseItems[].image.alt",
+
+  "bottomCtaTitle",
+  "bottomCtaText",
+  "bottomCtaLabel",
+
+  "seoTitle",
+  "seoDescription",
   ],
 
   contactPage: [

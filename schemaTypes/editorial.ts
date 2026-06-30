@@ -160,53 +160,99 @@ export default defineType({
 
     defineField({
       name: "content",
-      title: "Contenu",
-      description:
-        "Rédigez directement dans l’éditeur et utilisez le bouton “Ajouter un bloc” pour insérer un encadré, une citation, ou marquer un passage en pleine largeur.",
-      type: "array",
-      of: [
-        editorialRichTextBlock,
-        defineArrayMember({
-          name: "layoutBreak",
-          title: "Passage en pleine largeur",
-          type: "object",
-          fields: [
-            defineField({
-              name: "marker",
-              title: "Marker",
-              type: "string",
-              initialValue: "layoutBreak",
-              hidden: true,
-              readOnly: true,
+      title: "Contenu de l'article",
+      type: "object",
+      fields: [
+        defineField({
+          name: "fr",
+          title: "Français",
+          type: "array",
+          of: [
+            editorialRichTextBlock,
+            defineArrayMember({
+              name: "layoutBreak",
+              title: "Passage en pleine largeur",
+              type: "object",
+              fields: [
+                defineField({
+                  name: "marker",
+                  title: "Marker",
+                  type: "string",
+                  initialValue: "layoutBreak",
+                  hidden: true,
+                  readOnly: true,
+                }),
+              ],
+              preview: {
+                prepare() {
+                  return {
+                    title: "Passage en pleine largeur",
+                    subtitle: "Le contenu suivant s’affichera sous la sidebar, sur toute la largeur",
+                  };
+                },
+              },
+            }),
+            defineArrayMember({
+              type: "patrimonyFocus",
+            }),
+            defineArrayMember({
+              type: "editorialQuote",
             }),
           ],
-          preview: {
-            prepare() {
-              return {
-                title: "Passage en pleine largeur",
-                subtitle:
-                  "Le contenu suivant s’affichera sous la sidebar, sur toute la largeur",
-              };
-            },
+          components: {
+            input: ModularContentInput as unknown as ComponentType<any>,
+          },
+          options: {
+            disableActions: ["add"],
+            insertMenu: { views: [{ name: "list" }] },
           },
         }),
-        defineArrayMember({
-          type: "patrimonyFocus",
-        }),
-        defineArrayMember({
-          type: "editorialQuote",
+        defineField({
+          name: "en",
+          title: "Anglais",
+          type: "array",
+          of: [
+            editorialRichTextBlock,
+            defineArrayMember({
+              name: "layoutBreak",
+              title: "Passage en pleine largeur",
+              type: "object",
+              fields: [
+                defineField({
+                  name: "marker",
+                  title: "Marker",
+                  type: "string",
+                  initialValue: "layoutBreak",
+                  hidden: true,
+                  readOnly: true,
+                }),
+              ],
+              preview: {
+                prepare() {
+                  return {
+                    title: "Passage en pleine largeur",
+                    subtitle: "Le contenu suivant s’affichera sous la sidebar, sur toute la largeur",
+                  };
+                },
+              },
+            }),
+            defineArrayMember({
+              type: "patrimonyFocus",
+            }),
+            defineArrayMember({
+              type: "editorialQuote",
+            }),
+          ],
+          components: {
+            input: ModularContentInput as unknown as ComponentType<any>,
+          },
+          options: {
+            disableActions: ["add"],
+            insertMenu: { views: [{ name: "list" }] },
+          },
         }),
       ],
-      components: {
-        input: ModularContentInput as unknown as ComponentType<any>,
-      },
-      options: {
-        disableActions: ["add"],
-        insertMenu: {
-          views: [{ name: "list" }],
-        },
-      },
-      validation: (Rule) => Rule.required().min(1),
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
@@ -335,8 +381,13 @@ export default defineType({
             },
             prepare(selection) {
               const { title, placement, type } = selection || {};
+              
+              const displayTitle = title && typeof title === "object" 
+                ? (title.fr || title.en || "") 
+                : (title || "CTA éditorial");
+
               return {
-                title: title || "CTA éditorial",
+                title: displayTitle || "CTA éditorial",
                 subtitle: [placement, type].filter(Boolean).join(" • "),
               };
             },
@@ -362,7 +413,7 @@ export default defineType({
       title: "Éléments sidebar",
       type: "array",
       of: [
-        defineField({
+        defineArrayMember({
           name: "sidebarShowcaseItem",
           title: "Élément sidebar",
           type: "object",
@@ -402,6 +453,23 @@ export default defineType({
               subtitle: "subtitle",
               media: "image",
             },
+            prepare(selection: Record<string, any>) {
+              const { title, subtitle, media } = selection || {};
+              
+              const displayTitle = title && typeof title === "object"
+                ? (title.fr || title.en || "")
+                : (title || "Situation accompagnée");
+
+              const displaySubtitle = subtitle && typeof subtitle === "object"
+                ? (subtitle.fr || subtitle.en || "")
+                : (subtitle || "");
+
+              return {
+                title: displayTitle || "Situation accompagnée",
+                subtitle: displaySubtitle || "",
+                media,
+              };
+            },
           },
         }),
       ],
@@ -421,14 +489,12 @@ export default defineType({
           title: "Sur-titre du bloc",
           type: "localeString",
           initialValue: "Pour prolonger la lecture",
-          validation: (Rule) => Rule.max(80),
         }),
         defineField({
           name: "title",
           title: "Titre du bloc",
           type: "localeString",
           initialValue: "Quelques pistes pour aller plus loin",
-          validation: (Rule) => Rule.max(120),
         }),
         defineField({
           name: "text",
@@ -436,7 +502,6 @@ export default defineType({
           type: "localeText",
           initialValue:
             "Des repères utiles pour clarifier les mécanismes et avancer avec plus de recul.",
-          validation: (Rule) => Rule.max(240),
         }),
         defineField({
           name: "links",
@@ -453,7 +518,7 @@ export default defineType({
                   name: "title",
                   title: "Titre",
                   type: "localeString",
-                  validation: (Rule) => Rule.required().max(120),
+                  validation: (Rule) => Rule.required(),
                 }),
                 defineField({
                   name: "href",
@@ -490,7 +555,6 @@ export default defineType({
                   title: "Libellé du lien",
                   type: "localeString",
                   initialValue: "Lire",
-                  validation: (Rule) => Rule.max(40),
                 }),
               ],
               preview: {
@@ -498,10 +562,15 @@ export default defineType({
                   title: "title",
                   subtitle: "href",
                 },
-                prepare(selection) {
+                prepare(selection: Record<string, any>) {
                   const { title, subtitle } = selection || {};
+                  
+                  const displayTitle = title && typeof title === "object"
+                    ? (title.fr || title.en || "")
+                    : (title || "Lien associé");
+
                   return {
-                    title: title || "Lien associé",
+                    title: displayTitle || "Lien associé",
                     subtitle: subtitle || "Lien non renseigné",
                   };
                 },
@@ -515,7 +584,7 @@ export default defineType({
           title: "title",
           links: "links",
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
           const { title, links } = selection || {};
           const count = Array.isArray(links) ? links.length : 0;
 
@@ -545,7 +614,7 @@ export default defineType({
               name: "label",
               title: "Titre",
               type: "localeString",
-              validation: (Rule) => Rule.required().max(160),
+              validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "url",
@@ -581,7 +650,6 @@ export default defineType({
               name: "note",
               title: "Note",
               type: "localeText",
-              validation: (Rule) => Rule.max(280),
             }),
           ],
           preview: {
@@ -590,10 +658,15 @@ export default defineType({
               publisher: "publisher",
               kind: "kind",
             },
-            prepare(selection) {
+            prepare(selection: Record<string, any>) {
               const { title, publisher, kind } = selection || {};
+              
+              const displayTitle = title && typeof title === "object"
+                ? (title.fr || title.en || "")
+                : (title || "Source");
+
               return {
-                title: title || "Source",
+                title: displayTitle || "Source",
                 subtitle: [publisher, kind].filter(Boolean).join(" • "),
               };
             },
@@ -639,7 +712,7 @@ export default defineType({
       subtitle: "category",
       media: "mainImage",
     },
-    prepare(selection) {
+    prepare(selection: Record<string, any>) {
       const { title, fallbackTitle, subtitle, media } = selection || {};
 
       const displayTitle = pickLocale(title);

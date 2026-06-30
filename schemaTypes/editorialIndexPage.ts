@@ -78,13 +78,11 @@ export default defineType({
           name: 'metaTitle',
           title: 'Meta title',
           type: 'localeString',
-          validation: (Rule) => Rule.max(70),
         }),
         defineField({
           name: 'metaDescription',
           title: 'Meta description',
           type: 'localeText',
-          validation: (Rule) => Rule.max(180),
         }),
       ],
     }),

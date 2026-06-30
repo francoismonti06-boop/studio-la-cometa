@@ -1,4 +1,5 @@
-import {defineArrayMember, defineField, defineType} from "sanity";
+import {defineArrayMember, defineField, defineType} from "sanity"
+import {pickLocale} from "./utils/preview"
 
 export default defineType({
   name: "personProfile",
@@ -36,7 +37,7 @@ export default defineType({
       name: "excerpt",
       title: "Chapô",
       type: "localeText",
-      validation: (Rule) => Rule.required().max(420),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "mainImage",
@@ -120,6 +121,12 @@ export default defineType({
               title: "label",
               subtitle: "value",
             },
+            prepare({title, subtitle}) {
+              return {
+                title: pickLocale(title) || "Repère",
+                subtitle: pickLocale(subtitle) || "Valeur",
+              }
+            },
           },
         }),
       ],
@@ -158,13 +165,11 @@ export default defineType({
       name: "seoTitle",
       title: "SEO title",
       type: "localeString",
-      validation: (Rule) => Rule.max(70),
     }),
     defineField({
       name: "seoDescription",
       title: "SEO description",
       type: "localeText",
-      validation: (Rule) => Rule.max(170),
     }),
     defineField({
       name: "noIndex",
@@ -179,5 +184,12 @@ export default defineType({
       subtitle: "headline",
       media: "mainImage",
     },
+    prepare({title, subtitle, media}) {
+      return {
+        title: title || "Profil / Personne",
+        subtitle: pickLocale(subtitle) || "Sans titre affiché",
+        media,
+      }
+    },
   },
-});
+})

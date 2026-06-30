@@ -27,7 +27,7 @@ export default defineType({
                 name: 'label',
                 title: 'Libellé',
                 type: 'localeString',
-              validation: (Rule) => Rule.required().min(1).max(24),
+              validation: (Rule) => Rule.required(),
                 }),
                 defineField({
                 name: 'href',
@@ -68,7 +68,6 @@ export default defineType({
           title: 'Fonction / rôle',
           type: 'localeString',
           initialValue: 'Conseil en viager & nue-propriété',
-          validation: (Rule) => Rule.max(120),
         }),
 
     defineField({
@@ -91,7 +90,6 @@ export default defineType({
               name: 'alt',
               title: 'Texte alternatif',
               type: 'localeString',
-              validation: (Rule) => Rule.max(120),
             }),
           ],
         }),
