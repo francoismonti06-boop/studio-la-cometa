@@ -15,4 +15,17 @@ module.exports = {
   homePage: [
     "manifestoIntro",
   ],
+  
+  personProfile: [
+  "body",
+],
+
+contactPage: [
+  "body",
+],
+
+legalPage: [
+  "content",
+],
+
 }

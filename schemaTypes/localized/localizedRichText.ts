@@ -1,33 +1,52 @@
 // schemaTypes/localized/localizedRichText.ts
-import { defineType, defineField, defineArrayMember } from "sanity";
+import {defineArrayMember, defineField, defineType} from "sanity"
 
 const innerBlocks = [
   defineArrayMember({
     type: "block",
     styles: [
-      { title: "Normal", value: "normal" },
-      { title: "Titre 2", value: "h2" },
-      { title: "Titre 3", value: "h3" },
-      { title: "Titre 4", value: "h4" },
-      { title: "Citation", value: "blockquote" },
+      {title: "Normal", value: "normal"},
+      {title: "Titre 2", value: "h2"},
+      {title: "Titre 3", value: "h3"},
+      {title: "Titre 4", value: "h4"},
+      {title: "Citation", value: "blockquote"},
     ],
     lists: [
-      { title: "Liste à puces", value: "bullet" },
-      { title: "Liste numérotée", value: "number" },
+      {title: "Liste à puces", value: "bullet"},
+      {title: "Liste numérotée", value: "number"},
     ],
     marks: {
       decorators: [
-        { title: "Gras", value: "strong" },
-        { title: "Italique", value: "em" },
-        { title: "Souligné", value: "underline" },
+        {title: "Gras", value: "strong"},
+        {title: "Italique", value: "em"},
+        {title: "Souligné", value: "underline"},
+      ],
+      annotations: [
+        defineArrayMember({
+          name: "link",
+          title: "Lien",
+          type: "object",
+          fields: [
+            defineField({
+              name: "href",
+              title: "URL",
+              type: "url",
+              validation: (Rule) =>
+                Rule.uri({
+                  allowRelative: true,
+                  scheme: ["http", "https", "mailto", "tel"],
+                }),
+            }),
+          ],
+        }),
       ],
     },
-  })
-];
+  }),
+]
 
 export default defineType({
   name: "localizedRichText",
-  title: "Texte Courant Localisé",
+  title: "Texte courant localisé",
   type: "object",
   fields: [
     defineField({
@@ -48,17 +67,25 @@ export default defineType({
       fr: "fr",
       en: "en",
     },
-    prepare({ fr, en }) {
-      const blockFr = fr?.find((b: any) => b._type === "block");
-      const textFr = blockFr?.children?.map((c: any) => c.text).join("") || "";
-      
-      const blockEn = en?.find((b: any) => b._type === "block");
-      const textEn = blockEn?.children?.map((c: any) => c.text).join("") || "";
+    prepare({fr, en}) {
+      const blockFr = Array.isArray(fr)
+        ? fr.find((block: any) => block?._type === "block")
+        : undefined
+
+      const textFr =
+        blockFr?.children?.map((child: any) => child?.text).join("") || ""
+
+      const blockEn = Array.isArray(en)
+        ? en.find((block: any) => block?._type === "block")
+        : undefined
+
+      const textEn =
+        blockEn?.children?.map((child: any) => child?.text).join("") || ""
 
       return {
         title: textFr || textEn || "Texte vide",
         subtitle: "Texte riche multilingue",
-      };
+      }
     },
   },
-});
+})

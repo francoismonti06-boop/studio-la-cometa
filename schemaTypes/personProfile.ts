@@ -1,4 +1,4 @@
-import {defineArrayMember, defineField, defineType} from "sanity"
+import { defineArrayMember, defineField, defineType } from "sanity"
 import {pickLocale} from "./utils/preview"
 
 export default defineType({
@@ -54,47 +54,11 @@ export default defineType({
       ],
     }),
     defineField({
-      name: "body",
-      title: "Contenu",
-      type: "array",
-      of: [
-        defineArrayMember({
-          type: "block",
-          styles: [
-            {title: "Normal", value: "normal"},
-            {title: "Titre 2", value: "h2"},
-            {title: "Titre 3", value: "h3"},
-          ],
-          lists: [],
-          marks: {
-            decorators: [
-              {title: "Gras", value: "strong"},
-              {title: "Italique", value: "em"},
-            ],
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "Lien",
-                fields: [
-                  defineField({
-                    name: "href",
-                    title: "URL",
-                    type: "url",
-                    validation: (Rule) =>
-                      Rule.uri({
-                        allowRelative: true,
-                        scheme: ["http", "https", "mailto", "tel"],
-                      }),
-                  }),
-                ],
-              },
-            ],
-          },
-        }),
-      ],
-      validation: (Rule) => Rule.required(),
-    }),
+  name: "body",
+  title: "Contenu",
+  type: "localizedRichText",
+  validation: (Rule) => Rule.required(),
+}),
     defineField({
       name: "facts",
       title: "Repères sobres",

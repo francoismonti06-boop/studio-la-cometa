@@ -44,46 +44,11 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'content',
-      title: 'Contenu',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-          styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'Titre 2', value: 'h2'},
-            {title: 'Titre 3', value: 'h3'},
-          ],
-          lists: [{title: 'Liste à puces', value: 'bullet'}],
-          marks: {
-            decorators: [
-              {title: 'Gras', value: 'strong'},
-              {title: 'Italique', value: 'em'},
-            ],
-            annotations: [
-              defineField({
-                name: 'link',
-                title: 'Lien',
-                type: 'object',
-                fields: [
-                  defineField({
-                    name: 'href',
-                    title: 'URL',
-                    type: 'url',
-                    validation: (Rule) =>
-                      Rule.required().uri({
-                        scheme: ['http', 'https', 'mailto', 'tel'],
-                      }),
-                  }),
-                ],
-              }),
-            ],
-          },
-        },
-      ],
-      validation: (Rule) => Rule.required(),
-    }),
+  name: 'content',
+  title: 'Contenu',
+  type: 'localizedRichText',
+  validation: (Rule) => Rule.required(),
+}),
   ],
   preview: {
     select: {

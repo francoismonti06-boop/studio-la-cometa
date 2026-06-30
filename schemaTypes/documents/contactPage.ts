@@ -40,51 +40,10 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'body',
-      title: 'Contenu',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-          styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'Titre 2', value: 'h2'},
-            {title: 'Titre 3', value: 'h3'},
-            {title: 'Citation', value: 'blockquote'},
-          ],
-          lists: [
-            {title: 'Puces', value: 'bullet'},
-            {title: 'Numérotée', value: 'number'},
-          ],
-          marks: {
-            decorators: [
-              {title: 'Gras', value: 'strong'},
-              {title: 'Italique', value: 'em'},
-            ],
-            annotations: [
-              {
-                name: 'link',
-                title: 'Lien',
-                type: 'object',
-                fields: [
-                  defineField({
-                    name: 'href',
-                    title: 'URL',
-                    type: 'url',
-                    validation: (Rule) =>
-                      Rule.uri({
-                        allowRelative: true,
-                        scheme: ['http', 'https', 'mailto', 'tel'],
-                      }),
-                  }),
-                ],
-              },
-            ],
-          },
-        },
-      ],
-    }),
-
+  name: 'body',
+  title: 'Contenu',
+  type: 'localizedRichText',
+}),
     defineField({
       name: 'sidebarIntroTitle',
       title: 'Sidebar — titre du premier bloc',
