@@ -123,14 +123,14 @@ defineField({
     defineField({
       name: 'introEyebrow',
       title: 'Intro — sur-titre',
-      type: 'string',
+      type: 'localeString', // 🔹 Modifié
       group: 'editorial',
       description: 'Exemple : Résidence d’exception',
     }),
     defineField({
       name: 'introTitle',
       title: 'Intro — titre éditorial',
-      type: 'string',
+      type: 'localeString', // 🔹 Modifié
       group: 'editorial',
     }),
     defineField({
