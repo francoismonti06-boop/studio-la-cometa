@@ -1,4 +1,5 @@
-import {defineField, defineType} from "sanity";
+// /schemaTypes/cinematicManifestoBlock.ts
+import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: "cinematicManifestoBlock",
@@ -10,15 +11,15 @@ export default defineType({
       title: "Slides",
       type: "array",
       of: [
-        defineField({
-          name: "slide",
-          title: "Slide",
+        {
           type: "object",
+          name: "slide",
+          title: "Slide", // 💡 Ajouté pour un affichage propre dans le Studio
           fields: [
             defineField({
               name: "text",
               title: "Texte",
-              type: "localeText",
+              type: "localeText", // 🌍 Parfait pour la traduction
               validation: (Rule) => Rule.required(),
             }),
             defineField({
@@ -27,7 +28,7 @@ export default defineType({
               type: "boolean",
             }),
           ],
-        }),
+        },
       ],
       validation: (Rule) => Rule.required().min(3).max(10),
     }),

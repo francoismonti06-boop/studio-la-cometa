@@ -3,7 +3,6 @@
 import { defineField, defineType, defineArrayMember } from "sanity";
 import { pickLocale } from "./utils/preview";
 
-
 export default defineType({
   name: "homePage",
   title: "Home Page",
@@ -46,17 +45,32 @@ export default defineType({
     defineField({
       name: "manifestoIntro",
       title: "Accroche manifesto",
-      type: "localeBlock", // Modifié en localeBlock
-      validation: (Rule) => Rule.max(2), // Conserve la validation max lines
+      type: "localeBlock",
     }),
 
     defineField({
       name: "content",
       title: "Contenu modulaire",
       type: "array",
-      validation: (Rule) => Rule.max(10),
+      validation: (Rule) => Rule.max(30),
       of: [
-        { type: "block" },
+        // 1. Bloc Manifesto d'origine (enregistré globalement)
+        defineArrayMember({
+          type: "cinematicManifestoBlock",
+        }),
+
+        // 2. Bloc de texte riche localisé (pour remplacer proprement l'ancien bloc de texte brut)
+        defineArrayMember({
+          name: "localizedPortableText",
+          title: "Texte riche localisé",
+          type: "object",
+          fields: [
+            defineField({ name: "fr", title: "Français", type: "array", of: [{ type: "block" }] }),
+            defineField({ name: "en", title: "Anglais", type: "array", of: [{ type: "block" }] }),
+          ],
+        }),
+
+        // 3. Bloc d'introduction des 3 chemins ("Tout commence par...")
         defineArrayMember({
           type: "object",
           name: "navigationIntroBlock",
@@ -76,6 +90,8 @@ export default defineType({
             },
           },
         }),
+
+        // 4. Blocs individuels des chemins de navigation (les cartes)
         defineArrayMember({
           type: "object",
           name: "navigationBlock",
@@ -105,6 +121,8 @@ export default defineType({
             },
           },
         }),
+
+        // 5. Bloc Rupture
         defineArrayMember({
           type: "object",
           name: "breakBlock",
@@ -122,6 +140,8 @@ export default defineType({
             },
           },
         }),
+
+        // 6. Bloc CTA
         defineArrayMember({
           type: "object",
           name: "ctaBlock",

@@ -13,6 +13,15 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
 
+    // 💡 AJOUT : L'interrupteur pour afficher ou masquer le sélecteur FR / EN
+    defineField({
+      name: 'showLocaleSwitcher',
+      title: 'Afficher le sélecteur de langue',
+      description: 'Active ou désactive le bouton de bascule FR / EN dans la barre de navigation',
+      type: 'boolean',
+      initialValue: true,
+    }),
+
     defineField({
           name: 'navigation',
           title: 'Navigation principale',

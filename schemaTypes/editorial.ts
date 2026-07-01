@@ -101,7 +101,7 @@ export default defineType({
     defineField({
       name: "category",
       title: "Catégorie",
-      type: "string",
+      type: "localeString",
     }),
     defineField({
       name: "targetAudience",
@@ -628,7 +628,7 @@ export default defineType({
             defineField({
               name: "publisher",
               title: "Éditeur / organisme",
-              type: "string",
+              type: "localeString",
               validation: (Rule) => Rule.max(120),
             }),
             defineField({
