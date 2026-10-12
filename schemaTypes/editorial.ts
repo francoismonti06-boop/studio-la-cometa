@@ -488,20 +488,31 @@ export default defineType({
           name: "eyebrow",
           title: "Sur-titre du bloc",
           type: "localeString",
-          initialValue: "Pour prolonger la lecture",
+          initialValue: {
+            _type: "localeString",
+            fr: "Pour prolonger la lecture",
+            en: "To extend the reading",
+          },
         }),
         defineField({
           name: "title",
           title: "Titre du bloc",
           type: "localeString",
-          initialValue: "Quelques pistes pour aller plus loin",
+          initialValue: {
+            _type: "localeString",
+            fr: "Quelques pistes pour aller plus loin",
+            en: "Some avenues to go further",
+          },
         }),
         defineField({
           name: "text",
           title: "Texte d’introduction",
           type: "localeText",
-          initialValue:
-            "Des repères utiles pour clarifier les mécanismes et avancer avec plus de recul.",
+          initialValue: {
+            _type: "localeText",
+            fr: "Des repères utiles pour clarifier les mécanismes et avancer avec plus de recul.",
+            en: "Useful benchmarks to clarify the mechanisms and move forward with more perspective.",
+          },
         }),
         defineField({
           name: "links",
@@ -554,7 +565,11 @@ export default defineType({
                   name: "linkLabel",
                   title: "Libellé du lien",
                   type: "localeString",
-                  initialValue: "Lire",
+                  initialValue: {
+                    _type: "localeString",
+                    fr: "Lire",
+                    en: "Read",
+                  },
                 }),
               ],
               preview: {
@@ -629,7 +644,21 @@ export default defineType({
               name: "publisher",
               title: "Éditeur / organisme",
               type: "localeString",
-              validation: (Rule) => Rule.max(120),
+              validation: (Rule) =>
+                Rule.custom((value) => {
+                  if (!value || typeof value !== "object" || Array.isArray(value)) {
+                    return true;
+                  }
+
+                  const localized = value as {fr?: unknown; en?: unknown};
+                  if (typeof localized.fr === "string" && localized.fr.length > 120) {
+                    return "Le texte français est limité à 120 caractères.";
+                  }
+                  if (typeof localized.en === "string" && localized.en.length > 120) {
+                    return "Le texte anglais est limité à 120 caractères.";
+                  }
+                  return true;
+                }),
             }),
             defineField({
               name: "kind",

@@ -76,7 +76,11 @@ export default defineType({
           name: 'contactRole',
           title: 'Fonction / rôle',
           type: 'localeString',
-          initialValue: 'Conseil en viager & nue-propriété',
+          initialValue: {
+            _type: 'localeString',
+            fr: 'Conseil en viager & nue-propriété',
+            en: 'Advisory on viager & bare ownership',
+          },
         }),
 
     defineField({

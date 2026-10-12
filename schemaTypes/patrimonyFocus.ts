@@ -16,7 +16,25 @@ export default defineType({
       name: "text",
       title: "Texte",
       type: "localeText",
-      validation: (Rule) => Rule.required().min(40).max(600),
+      validation: (Rule) =>
+        Rule.custom((value) => {
+          if (!value || typeof value !== "object" || Array.isArray(value)) {
+            return "Le texte français est requis.";
+          }
+
+          const localized = value as {fr?: unknown; en?: unknown};
+          const fr = typeof localized.fr === "string" ? localized.fr : "";
+          if (!fr) return "Le texte français est requis.";
+          if (fr.length < 40 || fr.length > 600) {
+            return "Le texte français doit contenir entre 40 et 600 caractères.";
+          }
+
+          const en = typeof localized.en === "string" ? localized.en : "";
+          if (en && (en.length < 40 || en.length > 600)) {
+            return "Le texte anglais doit contenir entre 40 et 600 caractères.";
+          }
+          return true;
+        }),
       description:
         "Un encadré clair et pédagogique. Une idée forte, pas un mini-article.",
     }),
